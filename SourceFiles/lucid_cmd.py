@@ -1,0 +1,51 @@
+from enum import StrEnum
+
+class LucidCmd(StrEnum):
+    '''
+    Lucid command list
+     '''
+
+    FREQ = ':FREQ {0}e6'
+    FREQ_Q = ':FREQ?'
+    POW = ':POW {0}'
+    POW_Q = 'POW?'
+    OUTP_Q = ':OUTP?'
+    OUTP = ':OUTP {0}'
+    AM_SOURCE = ':AM:SOUR {0}'
+    AM_SOURCE_Q = ':AM:SOUR?'
+    AM_FREQ = ':AM:INT:FREQ {0}'
+    AM_FREQ_Q = ':AM:INT:FREQ?'
+    AM_DEPTH= ':AM:DEPT {0}'
+    AM_DEPTH_Q = ':AM:DEPT?'
+    AM = ':AM {0}'
+    AM_Q = ':AM?'
+    FM_SOURCE = ':FM:SOUR {0}'
+    FM_SOURCE_Q = ':FM:SOUR?'
+    FM_FREQ = ':FM:INT:FREQ {0}'
+    FM_FREQ_Q = ':FM:INT:FREQ?'
+    FM_DEV = ':FM:DEV {0}'
+    FM_DEV_Q = ':FM:DEV?'
+    FM = ':FM {0}'
+    FM_Q = ':FM?'
+    PM_FREQ = ':PM:INT:FREQ {0}'
+    PM_FREQ_Q = ':PM:INT:FREQ?'
+    PM_DEV = ':PM:DEV {0}'
+    PM_DEV_Q = ':PM:DEV?'
+    PM = ':PM {0}'
+    PM_Q = ':PM?'
+    PULSE_SOURCE = ':PULS:SOUR {0}'
+    PULSE_SOURCE_Q = ':PULS:SOUR?'
+    PULSE_FREQ = ':PULS:FREQ {0}'
+    PULSE_FREQ_Q = ':PULS:FREQ?'
+    PULSE_WIDT = ':PULS:WIDT {0}'
+    PULSE_WIDT_Q = ':PULS:WIDT?'
+    PULSE = ':PULS {0}'
+    PULSE_Q = ':PULS?'
+    PATTERN_ON = ':PATT ON'
+    PATTERN_OFF = ':PATT OFF'
+    PATTERN_DEF = ':PATT:DEF {0}'
+    PATTERN_DEF_Q = ':PATT:DEF? {0}'
+    PATTERN_DATA =  ":SOURCE:PATTERN:DATA "
+
+
+
