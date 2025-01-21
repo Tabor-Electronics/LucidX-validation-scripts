@@ -5,7 +5,7 @@ and compare the given threshold to conclude the result for Accuracy with given f
 1) In this script we are using spectrum analyzer as a measuring device
 """
 
-
+###########################
 ###START OF SCRIPT###
 
 from SourceFiles.functions_v1 import Lucid_functions,SignalGeneration
@@ -21,8 +21,6 @@ if config.spectrum:
     spectrum_analyzer,status = spectrum_methods.reset(device_address)
     spectrum_methods.set_reference_power(config.power_default + 5, spectrum_analyzer)  # step 1) set reference power level on spectrum
     spectrum_methods.set_span_freq(200,spectrum_analyzer)
-
-
 
 for frequency in config.frequencies:
     SignalGeneration.continous_wave_generation(frequency, config.power_default) # continous signal generation
