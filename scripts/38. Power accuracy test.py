@@ -14,19 +14,19 @@ from SourceFiles import config
 from SourceFiles.lucid_cmd import LucidCmd
 
 #Establishing connection with LUCIDX
-handle = config.handle
-Lucid_functions.reset(handle)
+Lucid_functions.reset(config.handle)
 if config.spectrum:
-    spectrum_analyzer,status = spectrum_methods.reset(config)
-    if status:
-        spectrum_methods.set_reference_power(config.power_default + 5, spectrum_analyzer)  # step 1) set reference power level on spectrum
-        spectrum_methods.set_span_freq(200,spectrum_analyzer)
-power = config.power_default
-frequencies = config.frequencies
-for frequency in frequencies:
-    SignalGeneration.continous_wave_generation(frequency, power) # continous signal generation
+    device_address = 'TCPIP::{0}::{1}::SOCKET'.format(config.spectrum_ip_address_india,config.port)  # Spectrum analyzer TCPIP  address
+    spectrum_analyzer,status = spectrum_methods.reset(device_address)
+    spectrum_methods.set_reference_power(config.power_default + 5, spectrum_analyzer)  # step 1) set reference power level on spectrum
+    spectrum_methods.set_span_freq(200,spectrum_analyzer)
+frequency = config.frequency_default
+power = config.power_list
+for powe in config.power_list:
+    SignalGeneration.continous_wave_generation(frequency, powe) # continous signal generation
+
     if config.spectrum:# spectrum commands for automation
-        cf = frequency  # center frequency on measuring device
+        cf = config.frequency_default  # center frequency on measuring device
         spectrum_methods.set_centre_frequency(cf, spectrum_analyzer) # set center frequency on spectrum
         freq_out,power_max = spectrum_methods.set_marker(spectrum_analyzer) #  Read marker x (frequency) and y (power)
         error_value=abs(float(freq_out) - cf)  # Calculating difference between input and output frequency

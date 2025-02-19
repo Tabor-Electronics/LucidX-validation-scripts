@@ -1,25 +1,16 @@
-
-
-
 """
 1) In this script we are using spectrum analyzer as a measuring device
 # if spectrum is not connected to LAN please chnage the variable on line 16 "spectrum = False" and run the script on debug.
 """
-"""
-1) In this script we are using spectrum analyzer as a measuring device
-# if spectrum is not connected to LAN please chnage the variable on line 16 "spectrum = False" and run the script on debug.
-"""
-
-
 ###START OF SCRIPT###
 
 from SourceFiles.functions_v1 import Lucid_functions,SignalGeneration,FrequencyModulation
 from SourceFiles.spectrum_analyser_functions import spectrum_methods
 from SourceFiles import config
-from SourceFiles.lucid_cmd import  LucidCmd
+
 
 #Establishing connection with LUCIDX
-handle = 'TCPIP::{0}::{1}::SOCKET'.format(config.lucid_ip_address,config.port)  #Lucid TCPIP address
+handle = config.handle
 Lucid_functions.reset(handle)
 
 if config.spectrum:
@@ -31,22 +22,23 @@ if config.spectrum:
     threshold = -40
     spectrum_methods.set_peak_threshold(threshold, spectrum_analyzer)
 
-frequency = 1000
-cf = frequency
-SignalGeneration.continous_wave_generation(frequency, config.power_default)
-# # keep the scope time resolution around 50 us/
-
-
-FrequencyModulation.frequency_modulation_external_on()
-
-if config.spectrum:
-
-    spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)
-    spectrum_methods.set_marker_at_peak(spectrum_analyzer)
-    freq_fm =spectrum_methods.get_marker_frequency(spectrum_analyzer)
-    dev = abs(freq_fm-cf)
-    print(dev)
-    #spectrum_methods.get_delta_left_peak(spectrum_analyzer)
+# frequency = config.frequency_default
+power = config.power_default
+fm_freq = config.fm_freq_default
+deviation = config.fm_deviation_default
+internal_source = config.frequencies
+for frequency in internal_source:
+    SignalGeneration.continous_wave_generation(frequency, power)
+    FrequencyModulation.frequency_modulation_internal_on(fm_freq, deviation)
+    
+    if config.spectrum:
+        cf = frequency
+        spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)
+        span_freq = float(4*fm_freq)/1e6
+        spectrum_methods.set_span_freq(span_freq, spectrum_analyzer)
+        spectrum_methods.set_marker_at_peak(spectrum_analyzer)
+        spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)
+        spectrum_methods.get_delta_left_peak(spectrum_analyzer)
 
 # disconnect
 FrequencyModulation.frequency_modulation_off()

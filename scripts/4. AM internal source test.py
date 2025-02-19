@@ -10,8 +10,7 @@ from SourceFiles import config
 from SourceFiles.lucid_cmd import  LucidCmd
 
 #Establishing connection with LUCIDX
-handle = config.handle
-Lucid_functions.reset(handle)
+Lucid_functions.reset(config.handle)
 
 if config.spectrum:
     device_address = 'TCPIP::{0}::{1}::SOCKET'.format(config.spectrum_ip_address_india,config.port)  # Spectrum analyzer TCPIP  address
@@ -22,13 +21,11 @@ if config.spectrum:
     threshold = -40
     spectrum_methods.set_peak_threshold(threshold, spectrum_analyzer)
 
-frequency = config.frequency_default
 power = config.power_default
-SignalGeneration.continous_wave_generation(frequency, power)
-# Internal source commands for AM 
-am_frequencies = [100, 1000, 2000, 30000, 70000,100000]
-# keep the scope time resolution around 50 us/
-for am_freq in am_frequencies:
+am_freq = config.am_freq_default
+internal_source = config.frequencies
+for frequency in internal_source:
+    SignalGeneration.continous_wave_generation(frequency, power)
     AmplitudeModulation.amplitude_modulation_internal_on(am_freq, config.am_depth_default)
     if config.spectrum:
         cf = frequency
@@ -42,4 +39,4 @@ for am_freq in am_frequencies:
 # disconnect
 AmplitudeModulation.amplitude_modulation_off()
 Lucid_functions.disconnect_lucid(config.handle)# disconnect instrument
-###END OF SCRIPT###d
+###END OF SCRIPT###

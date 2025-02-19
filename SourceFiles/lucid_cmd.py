@@ -5,10 +5,12 @@ class LucidCmd(StrEnum):
     Lucid command list
      '''
 
-    FREQ = ':FREQ {0}e6'
+    FREQ = ':FREQ {0}'
     FREQ_Q = ':FREQ?'
     POW = ':POW {0}'
     POW_Q = 'POW?'
+    PHASE = ':PHAS {}'
+    PHASE_Q = ':PHAS?'
     OUTP_Q = ':OUTP?'
     OUTP = ':OUTP {0}'
     AM_SOURCE = ':AM:SOUR {0}'
@@ -43,9 +45,14 @@ class LucidCmd(StrEnum):
     PULSE_Q = ':PULS?'
     PATTERN_ON = ':PATT ON'
     PATTERN_OFF = ':PATT OFF'
-    PATTERN_DEF = ':PATT:DEF {0}'
+    PATTERN_DEF = ':PATT:DEF {0},{1},{2},{3},{4}'
     PATTERN_DEF_Q = ':PATT:DEF? {0}'
     PATTERN_DATA =  ":SOURCE:PATTERN:DATA "
+    LIST_ON = ':LIST ON'
+    LIST_OFF = ':LIST OFF'
+    LIST_DEF = ':LIST:DEF {0},{1},{2},{3},{4},{5}'
+    LIST_DEF_Q = ':LIST:DEF? {0}'
+    LIST_DATA = ":SOURCE:LIST:DATA "
 
 
 

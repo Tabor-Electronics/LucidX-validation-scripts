@@ -37,10 +37,6 @@ class spectrum_methods(object):
             return spectrum_analyzer,status
         except Exception as e:
             print('[!] Exception: ' + str(e))
-
-
-
-
     def reset_and_clear_sa(spectrum_analyzer):
         spectrum_analyzer.write('*RST')
         spectrum_analyzer.write('*CLS')
