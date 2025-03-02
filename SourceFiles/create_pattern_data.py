@@ -35,6 +35,8 @@ Offtime - 3.2e-8 to 1.8e6 (dhould be in units of 1ns)
 import pyvisa as visa
 # from functions_v1 import Lucid_functions
 from  lucid_cmd import LucidCmd
+from functions_v1 import Lucid_functions
+import config
 class PatternRow:
     def __init__(self, no_of_repetition, offtime, ontime):
         self.step = 0
@@ -104,7 +106,7 @@ class PatternData:
             end_bytes)  # adding all of them to create full command
         return full_command
 
-    def send_scpi_command_byte(self, handle):
+    def send_scpi_command_byte(self,handle):
         response = ""
 
         try:
@@ -113,7 +115,7 @@ class PatternData:
             # Need to define the termination string
             session.write_termination = '\n'
             session.read_termination = '\n'
-            full_command = self.get_full_scpi_command()
+            full_command =self.get_full_scpi_command()
             print("Command", full_command)
             session.write_raw(full_command)
 
@@ -123,4 +125,13 @@ class PatternData:
             print('[!] Exception: ' + str(e))
         return response
 
-
+if __name__ == "__main__":
+    handle = config.handle
+    Patternsetup = PatternData()
+    pattern_row = PatternRow(no_of_repetition=1, offtime=100 * 10 ** 3,ontime=100 * 10 ** 3)
+    Patternsetup.add_pattern_row(pattern_row)
+    response = Patternsetup.send_scpi_command_byte(handle)
+    Lucid_functions.send_scpi_command(LucidCmd.OUTP.format('ON'), handle)
+    Lucid_functions.send_scpi_command(LucidCmd.PATTERN_ON, handle)
+    patt_def = Lucid_functions.send_scpi_query(LucidCmd.PATTERN_DEF_Q.format(1), handle)
+    print(patt_def)
