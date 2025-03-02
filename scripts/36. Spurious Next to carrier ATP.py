@@ -23,6 +23,8 @@ handle = config.handle #Lucid TCPIP address
 Lucid_functions.reset(config.handle)
 #Establishing connection with spectrum analyzer as a measuring device
  #NOTE- Please keep it false if spectrum analyzer is not connected to same LAN network and run the script on debug mode
+print("Start spectrum analyzer")
+# commands for spectrum analyzer
 if config.spectrum:
     spectrum_address = 'TCPIP::192.90.70.36::5025::SOCKET' # Spectrum analyzer TCPIP  address
     spectrum_analyzer = spectrum_methods.connect_spectrum_via_lan(spectrum_address)

@@ -103,7 +103,7 @@ class SignalGeneration():
         Lucid_functions.send_scpi_command(LucidCmd.OUTP.format('ON'), handle)  # Channel OUTPUT ON scpi command
         outp_query = Lucid_functions.send_scpi_query(LucidCmd.OUTP_Q, handle)  # Channel OUTPUT ON scpi query
         error = Lucid_functions.get_lucid_error(handle)  # Error SCPI query
-        return freq_query,power_query,outp_query,error
+        return freq_query,power_query
 
 class AmplitudeModulation():
 
@@ -130,7 +130,6 @@ class AmplitudeModulation():
     def amplitude_modulation_off():
         handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
         Lucid_functions.send_scpi_command(LucidCmd.AM.format('OFF'), handle)
-        Lucid_functions.disconnect_lucid(handle)
         am_status_q = Lucid_functions.send_scpi_query(LucidCmd.AM_Q, handle)
         error = Lucid_functions.get_lucid_error(handle)
         return am_status_q
@@ -158,11 +157,10 @@ class FrequencyModulation():
         fm_source_q = Lucid_functions.send_scpi_query(LucidCmd.FM_SOURCE_Q, handle)
         fm_status_q = Lucid_functions.send_scpi_query(LucidCmd.FM_Q, handle)
         error = Lucid_functions.get_lucid_error(handle)
-        return fm_source_q,fm_status_q
+        return fm_dev_q,fm_source_q,fm_status_q
     def frequency_modulation_off():
         handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
         Lucid_functions.send_scpi_command(LucidCmd.FM.format('OFF'), handle)
-        Lucid_functions.disconnect_lucid(handle)
         fm_status_q = Lucid_functions.send_scpi_query(LucidCmd.FM_Q, handle)
         error = Lucid_functions.get_lucid_error(handle)
         return fm_status_q
@@ -181,7 +179,6 @@ class PhaseModulation():
     def phase_modulation_off():
         handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
         Lucid_functions.send_scpi_command(LucidCmd.PM.format('OFF'), handle)
-        Lucid_functions.disconnect_lucid(handle)
         pm_status_q = Lucid_functions.send_scpi_query(LucidCmd.PM_Q, handle)
         error = Lucid_functions.get_lucid_error(handle)
         return pm_status_q
@@ -213,7 +210,6 @@ class PulseModulation():
     def pulse_modulation_off():
         handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
         Lucid_functions.send_scpi_command(LucidCmd.PULSE.format('OFF'), handle)
-        Lucid_functions.disconnect_lucid(handle)
         pulse_status_q = Lucid_functions.send_scpi_query(LucidCmd.PULSE_Q, handle)
         error = Lucid_functions.get_lucid_error(handle)
         return pulse_status_q
@@ -235,6 +231,8 @@ class sweeps():
         time_query = Lucid_functions.send_scpi_query(':FRSW:TIME?', handle)
         
         Lucid_functions.send_scpi_command(':FRSW ON', handle)
+        return  start_freq_query,stop_freq_query,step_query,time_query,direction_query
+        
     
     def power_sweep(start_power, stop_power, steps, direction, time_cmd):
         handle = config.handle
@@ -250,6 +248,6 @@ class sweeps():
         step_query = Lucid_functions.send_scpi_query(':PRSW:STEP?', handle)
         direction_query = Lucid_functions.send_scpi_query(':PRSW:DIR?', handle)
         step_query = Lucid_functions.send_scpi_query(':PRSW:STEP?', handle)
-        
         time_query = Lucid_functions.send_scpi_query(':PRSW:TIME?', handle)
+        return start_power_query,stop_power_query,step_query,time_query,direction_query
     

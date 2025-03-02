@@ -1,14 +1,13 @@
 
-''' In this script List functionality is implemented
-it requires follwoing paarmaeters
-1) Frequencies (Hz): Specifies the frequency values for all lists in Hertz.
-2) Power (dBm): Defines the power levels for all lists in decibels-milliwatts (dBm).
-3) Dwell Time (s): Indicates the duration (in seconds) for each list entry.
-4) Advance: Determines whether the sequence runs or waits:
-        a) 0 for "Wait"
-        b) 1 for "Run"
-5) Ensure the last list entry always has value of 1, while the others remain 0.
-5) Step Numbers: There's no need to define step numbers, as the sequence works based on the order in which lists are defined.'''
+print("Test description:- In this script List functionality is implemented\nit requires follwoing paarmaeters")
+print("1) Frequencies (Hz): Specifies the frequency values for all lists in Hertz.")
+print("2) Power (dBm): Defines the power levels for all lists in decibels-milliwatts (dBm).")
+print("3) Dwell Time (s): Indicates the duration (in seconds) for each list entry.")
+print("4) Advance: Determines whether the sequence runs or waits:")
+print("\ta) 0 for 'Wait'")
+print("\tb) 1 for 'Run'")
+print("5) Ensure the last list entry always has value of 1, while the others remain 0.")
+print("6) Step Numbers: There's no need to define step numbers, as the sequence works based on the order in which lists are defined.''")
 ############Start of script############
 
 from SourceFiles.functions_v1 import Lucid_functions,SignalGeneration
@@ -20,6 +19,8 @@ from SourceFiles.lucid_cmd import LucidCmd
 handle = config.handle
 Lucid_functions.reset(handle)
 
+print("Start spectrum analyzer")
+# commands for spectrum analyzer
 if config.spectrum:
     device_address =config.spectrum_tcpip
     spectrum_analyzer,status = spectrum_methods.reset(device_address)
@@ -29,7 +30,7 @@ if config.spectrum:
     threshold = -40
     spectrum_methods.set_peak_threshold(threshold, spectrum_analyzer)
 
-'''for each list, theer is different parameters
+'''for each list, there is different parameters
 1) frequencies for all the list in Hz
 2) power for all list in dBm
 3) dwell time in terms of seconds
@@ -54,9 +55,13 @@ for i in range(len(frequency_list)):
 for i in range(len(frequency_list)):
     list_number = i+1
     list_def = Lucid_functions.send_scpi_query(LucidCmd.LIST_DEF_Q.format(list_number), handle)
-    print(list_def)
-    
-Lucid_functions.send_scpi_command(LucidCmd.LIST_OFF, handle)
-Lucid_functions.send_scpi_command(LucidCmd.OUTP.format('OFF'), handle)
-##################End of script#############
+    print("List:- ",list_def)
+    print("You must see the pattern on measuring device")
+    print("Press input to stop the pattern")
+    input()
+
+# disconnect instrument
+Lucid_functions.send_scpi_command(LucidCmd.LIST_OFF_OFF, handle)
+Lucid_functions.disconnect_lucid(config.handle)
+###END OF SCRIPT###
 

@@ -22,6 +22,8 @@ from SourceFiles.lucid_cmd import  LucidCmd
 handle = config.handle
 Lucid_functions.reset(handle)
 
+print("Start spectrum analyzer")
+# commands for spectrum analyzer
 if config.spectrum:
     device_address = 'TCPIP::{0}::{1}::SOCKET'.format(config.spectrum_ip_address_india,config.port)  # Spectrum analyzer TCPIP  address
     spectrum_analyzer,status = spectrum_methods.reset(device_address)
@@ -32,15 +34,27 @@ if config.spectrum:
     spectrum_methods.set_peak_threshold(threshold, spectrum_analyzer)
 
 frequency = config.frequency_default
-cf = frequency
-SignalGeneration.continous_wave_generation(frequency, config.power_default)
-# # keep the scope time resolution around 50 us/
+power = config.power_default
+deviation = config.fm_deviation_default
+fm_ext_frequencies = config.fm_ext_frequencies
 
-deviation = 1e6
-FrequencyModulation.frequency_modulation_external_on(deviation)
+# continous wave generation
+freq_query, power_query = SignalGeneration.continous_wave_generation(frequency, power)
+print(f"Frequency = {freq_query}, Power ={power_query}")
 
+deviation_q = FrequencyModulation.frequency_modulation_external_on(deviation)
+
+
+for ext_freq in fm_ext_frequencies:
+    # extranal source commands for AM
+    print(f"Generate external signal with Frequency = {ext_freq}Hz using a signal generator to FM external input of Lucid desktop")
+    print(f"Press on the Peak search button on Spectrum analyzer and a delta marker on the left/right on the peak and Note down modulation frequency and and check for deviation= {deviation_q}Hz FM signal")
+    print("Press enter for next frequency test")
+    input()
+    
+# commands for spectrum analyzer
 if config.spectrum:
-
+    cf = frequency
     spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)
     spectrum_methods.set_marker_at_peak(spectrum_analyzer)
     freq_fm =spectrum_methods.get_marker_frequency(spectrum_analyzer)
@@ -48,7 +62,7 @@ if config.spectrum:
     print(dev)
     #spectrum_methods.get_delta_left_peak(spectrum_analyzer)
 
-
+# disconnect instrument
 FrequencyModulation.frequency_modulation_off()
-Lucid_functions.disconnect_lucid(config.handle)# disconnect instrument
+Lucid_functions.disconnect_lucid(config.handle)
 ###END OF SCRIPT###

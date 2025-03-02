@@ -14,6 +14,8 @@ from SourceFiles.lucid_cmd import LucidCmd
 handle = config.handle
 Lucid_functions.reset(handle)
 
+print("Start spectrum analyzer")
+# commands for spectrum analyzer
 if config.spectrum:
     device_address = config.spectrum_tcpip
     spectrum_analyzer, status = spectrum_methods.reset(device_address)

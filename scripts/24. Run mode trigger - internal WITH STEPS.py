@@ -18,6 +18,8 @@ power = config.power_default
 am_freq = 10e3
 am_depth = 90
 
+print("Start spectrum analyzer")
+# commands for spectrum analyzer
 if config.spectrum:
     device_address =config.spectrum_tcpip
     spectrum_analyzer,status = spectrum_methods.reset(device_address)
