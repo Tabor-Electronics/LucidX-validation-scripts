@@ -1,5 +1,5 @@
 print("Test description :- This test gives out the value frequency and  power and compare the given threshold to conclude the result for Accuracy with given frequency")
-print("Steps:- \n1) In this script we are using spectrum analyzer as a measuring device.\n2) We will set a center  frequency and  span to verify the signal frtequency")
+print("Steps:- \n1) In this script we are using spectrum analyzer as a measuring device.\n2) We will set a center  frequency and  span to verify the signal frequency")
 
 ###########################
 ###START OF SCRIPT###
