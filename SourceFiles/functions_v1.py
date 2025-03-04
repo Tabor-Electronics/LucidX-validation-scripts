@@ -3,6 +3,7 @@ import time
 
 from SourceFiles import config
 from SourceFiles.lucid_cmd import LucidCmd
+from SourceFiles.for_the_gui import Print_function
 class Lucid_functions(object):
     def __init__(self,handle):
         handle = self.handle
@@ -10,9 +11,10 @@ class Lucid_functions(object):
     def lsx_connection(handle):
        try:
             idn_response = Lucid_functions.send_scpi_query('*IDN?', handle)
-            print("LucidX IDN Response: {}".format(idn_response))
+            
+            Print_function.print_to_user("LucidX IDN Response: {}".format(idn_response))
        except Exception as e:
-             print('[!] Exception: ' + str(e))
+             Print_function.print_to_user('[!] Exception: ' + str(e))
     def reset(handle):
         try:
             Lucid_functions.lsx_connection(handle)
@@ -90,7 +92,7 @@ class Lucid_functions(object):
 
     def disconnect_lucid(handle):
         Lucid_functions.send_scpi_command(LucidCmd.OUTP.format("OFF"), handle)
-        print("Test completed")
+        Print_function.print_to_user("Test completed")
 
 class SignalGeneration():
 
@@ -231,6 +233,7 @@ class sweeps():
         time_query = Lucid_functions.send_scpi_query(':FRSW:TIME?', handle)
         
         Lucid_functions.send_scpi_command(':FRSW ON', handle)
+        error = Lucid_functions.get_lucid_error(handle)
         return  start_freq_query,stop_freq_query,step_query,time_query,direction_query
         
     
@@ -249,5 +252,6 @@ class sweeps():
         direction_query = Lucid_functions.send_scpi_query(':PRSW:DIR?', handle)
         step_query = Lucid_functions.send_scpi_query(':PRSW:STEP?', handle)
         time_query = Lucid_functions.send_scpi_query(':PRSW:TIME?', handle)
+        error = Lucid_functions.get_lucid_error(handle)
         return start_power_query,stop_power_query,step_query,time_query,direction_query
     
