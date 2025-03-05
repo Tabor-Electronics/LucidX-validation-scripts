@@ -37,7 +37,7 @@ devicePrintCmd.Print()
 input()
 
 PulseModulation.pulse_modulation_external_on()
-devicePrintCmd.msg_user.set('Change the external source  frequnecy and Note the signal on Oscilloscope')
+devicePrintCmd.msg_user.set('Change the external source frequnecy and Note the signal on Oscilloscope')
 devicePrintCmd.Print()
 
 
