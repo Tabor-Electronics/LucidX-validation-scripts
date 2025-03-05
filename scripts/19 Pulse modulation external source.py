@@ -5,7 +5,7 @@ print("<DESCRIPTION> Test description :- This script will generate a signal with
 
 from SourceFiles.functions_v1 import Lucid_functions,SignalGeneration,PulseModulation
 from SourceFiles import config
-from SourceFiles.Fixed_By_Michael_for_the_gui import DevicePrint
+from SourceFiles.for_the_gui import DevicePrint
 
 #Establishing connection with LUCIDX
 handle = config.handle
