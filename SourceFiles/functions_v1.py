@@ -11,14 +11,13 @@ class Lucid_functions(object):
     def lsx_connection(handle):
        try:
             idn_response = Lucid_functions.send_scpi_query('*IDN?', handle)
-            
             Print_function.print_to_user("LucidX IDN Response: {}".format(idn_response))
        except Exception as e:
              Print_function.print_to_user('[!] Exception: ' + str(e))
     def reset(handle):
         try:
             Lucid_functions.lsx_connection(handle)
-            Lucid_functions.send_scpi_command("*RST", handle)
+            #Lucid_functions.send_scpi_command("*RST", handle)
             time.sleep(10)
             error = Lucid_functions.get_lucid_error(handle)  # Error SCPI query
         except Exception as e:

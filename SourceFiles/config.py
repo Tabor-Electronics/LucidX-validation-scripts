@@ -4,7 +4,7 @@ lucid_ip_address = '192.168.7.1' #LSX ip address
 port = "5025" #port number
 handle = 'TCPIP::{0}::{1}::SOCKET'.format(lucid_ip_address,port)  #Lucid TCPIP address
 ##Spectrum analyzer parameters
-spectrum = False
+spectrum = True
 spectrum_ip_address_israel = '192.168.0.103'
 spectrum_ip_address_india = '192.90.70.36'
 spectrum_tcpip = 'TCPIP::{0}::{1}::SOCKET'.format(spectrum_ip_address_israel,port)  # Spectrum analyzer TCPIP  address
@@ -14,7 +14,7 @@ default_start = 500
 default_stop = 5000
 ## Continuous wave parameter
 frequency_default = 1e3
-frequencies = [1e3,2e3, 3e3]#, 4e3,5e3,6e3,7e3,8e3,9e3,10e3,11e3,12e3,13e3,14e3,15e3,16e3,17e3,18e3,19e3, 20e3] #Frequency in Mhz
+frequencies = [1e3,2e3, 3e3, 4e3,5e3,6e3,7e3,8e3]#,9e3,10e3,11e3,12e3,13e3,14e3,15e3,16e3,17e3,18e3,19e3, 20e3] #Frequency in Mhz
 frequency_resolution = 0.001 #1KHz
 power_default = 5
 power_resolution =0.01 #0.01 dBm

@@ -8,10 +8,9 @@ from SourceFiles.lucid_cmd import LucidCmd
 class Print_function(object):
 	def __init__(self, handle):
 		handle = self.handle
-	def print_freq_pow_to_gui(freq=1e9, freq__dev_p=0.000, freq_dev_n=0.000, pow=5, power_dev_p=0.000,
-	                          power_dev_n=0.000):
+	def print_freq_pow_to_gui(freq=1e9, freq__dev_p=0.000, freq_dev_n=0.000, pow=5, power_dev_p=0.000,power_dev_n=0.000):
 		print("<TOGUI>freq={0}::p{1}::n{2},pow={3}::p{4}::n{5}</TOGUI>".format(freq, freq__dev_p, freq_dev_n, pow,power_dev_p, power_dev_n))
-	
+
 	def print_to_user(msg='Hi User'):
 		print("<TOUSER>" + msg + "</TOUSER>")
 
@@ -70,7 +69,7 @@ class _MessageToGui(object):
 
 
 class _Cmd(object):
-	def __init(self, cmd_text):
+	def __init__(self, cmd_text):
 		self.cmd_text = cmd_text
 	
 	def set(self, cmd_text):
@@ -88,7 +87,7 @@ class _Cmd(object):
 
 
 class _Resp(object):
-	def __init(self, resp_text):
+	def __init__(self, resp_text):
 		self.resp_text = resp_text
 	
 	def set(self, resp_text):
@@ -106,7 +105,7 @@ class _Resp(object):
 
 
 class DevicePrint(object):
-	def __init__(self, print_type=0, cmd_text='', response_text='', message_to_user='', message_to_gui=''):
+	def __init__(self, print_type=0, cmd_text='None', response_text='', message_to_user='', message_to_gui=''):
 		self.print_type = print_type
 		self.cmd = _Cmd(cmd_text)
 		self.resp = _Resp(response_text)
