@@ -1,0 +1,12 @@
+1) Frequency Accuracy Test-
+print("<DESCRIPTION> Test description :- This test gives out the value frequency and  power and compare the given threshold to conclude the result for accuracy with given frequency\nSteps:- \n1) In this script we are using spectrum analyzer as a measuring device.\n2) We will set a center  frequency and  span to verify the signal frequency</DESCRIPTION>")
+
+Script description
+SECTION 0 - Import the required libraries
+SECTION 1- Connect LUCIDX, create object of Device print, connect to measuring device
+SECTION 2- Defining parameters and generate signal form LUCIDX
+SECTION 3 - Get the value from measuring device (Spectrum Analyzer)
+SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 0.1 percentange (TBC in datasheets)
+SECTION 5 - Closing the instruments
+
+

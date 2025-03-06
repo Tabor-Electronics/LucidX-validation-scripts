@@ -1,16 +1,18 @@
 import pyvisa as visa
 import time
+import config
 
 
 class spectrum_methods(object):
     def __init__(self, device_address):
-        self.device_address = device_address
+        # self.device_address = device_address
+        self.spectrum_tcpip = config.spectrum_tcpip
 
-    def connect_spectrum_via_lan(device_address):
+    def connect_spectrum_via_lan(self):
         # device_address = 'TCPIP::192.90.70.36::5025::SOCKET'
         try:
             rm = visa.ResourceManager()
-            spectrum_analyzer = rm.open_resource(device_address)
+            spectrum_analyzer = rm.open_resource(self.spectrum_tcpip)
             spectrum_analyzer.timeout = 2000
             spectrum_analyzer.write_termination = '\n'
             spectrum_analyzer.read_termination = '\n'
@@ -25,8 +27,10 @@ class spectrum_methods(object):
         except visa.Error as e:
             print("Error reading IDN: {}".format(e))
         return spectrum_analyzer
-    def reset(device_address):
+    def resetX(self):
         try:
+            device_address = 'TCPIP::192.90.70.103::5025::SOCKET'
+            # device_address = self.device_address
             spectrum_analyzer=spectrum_methods.connect_spectrum_via_lan(device_address)
             spectrum_analyzer.write('*RST')
             spectrum_analyzer.write('*CLS')
@@ -37,6 +41,20 @@ class spectrum_methods(object):
             return spectrum_analyzer,status
         except Exception as e:
             print('[!] Exception: ' + str(e))
+            
+    def reset(self):
+        try:
+            device_address = 'TCPIP::192.90.70.103::5025::SOCKET'
+            spectrum_analyzer = spectrum_methods.connect_spectrum_via_lan(self)
+            spectrum_analyzer.write('*RST')
+            spectrum_analyzer.write('*CLS')
+            spectrum_analyzer.write(':INIT:REST')
+            spectrum_methods.set_continous_mode(spectrum_analyzer)
+            time.sleep(1)
+            return spectrum_analyzer, True
+        except Exception as e:
+            print('[!] Exception: ' + str(e))
+            raise
     def reset_and_clear_sa(spectrum_analyzer):
         spectrum_analyzer.write('*RST')
         spectrum_analyzer.write('*CLS')
@@ -45,7 +63,8 @@ class spectrum_methods(object):
         time.sleep(1)
         status = True
         return status
-
+    # def disconnect_spectrum(spectrum_analyzer):
+    #     spectrum_analyzer.close()
     def set_continous_mode(spectrum_analyzer):
         spectrum_analyzer.write(':INIT:CONT 1')
 
@@ -83,7 +102,7 @@ class spectrum_methods(object):
         # spectrum_methods.marker_to_center_frequency(spectrum_analyzer)
         freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)
         power_max = spectrum_methods.get_marker_power(spectrum_analyzer)
-        print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
+        # print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         return freq_out, power_max
 
     def set_marker_at_peak(spectrum_analyzer):
