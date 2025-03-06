@@ -20,8 +20,7 @@ devicePrintCmd.Print()
 if config.spectrum:
 	spectrum_analyzer, status = spectrum_methods.reset(config)
 	if status:
-		spectrum_methods.set_reference_power(config.power_default + 5,
-		                                     spectrum_analyzer)  # step 1) set reference power level on spectrum
+		spectrum_methods.set_reference_power(config.power_default + 5,spectrum_analyzer)  # step 1) set reference power level on spectrum
 		spectrum_methods.set_span_freq(200, spectrum_analyzer)  # step 2) set span to 200MHz
 
 # SECTION 2- Defining parameters and generate signal form LUCIDX
@@ -64,7 +63,7 @@ for freq_in in frequencies:
 			devicePrintCmd.msg_user.set(f'Test pass for Frequency = {freq_in} MHz')
 			devicePrintCmd.Print()
 		else:
-			print(f'Test Fail for Frequency = {freq_in} MHz')
+			#print(f'Test Fail for Frequency = {freq_in} MHz')
 			devicePrintCmd.msg_user.set(f'Test Fail for Frequency = {freq_in} MHz')
 			devicePrintCmd.Print()
 	
