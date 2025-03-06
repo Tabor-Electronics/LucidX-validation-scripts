@@ -73,7 +73,7 @@ devicePrintCmd.Print()
 query = ':SYST:INF:CAL?'
 temp = Lucid_functions.send_scpi_query(query,handle)
 if temp:
-    devicePrintCmd.msg_user.set('Callibration Date: {}'.format(temp))
+    devicePrintCmd.msg_user.set('Callibration Date: {0}'.format(temp))
     devicePrintCmd.Print()
 else:
     test_success = False
