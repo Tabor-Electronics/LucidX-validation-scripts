@@ -24,7 +24,7 @@ if config.spectrum:
                                              spectrum_analyzer)  # step 1) set reference power level on spectrum
         spectrum_methods.set_span_freq(200, spectrum_analyzer)  # step 2) set span to 200MHz
 
-# Global Parameters
+#SECTION 2- Defining parameters and generate signal form LUCIDX
 frequency = config.frequency_default  # frequency in MHz
 power = config.power_list  # list of power for testing
 
@@ -34,12 +34,15 @@ for powe in config.power_list:
     # print(f"Frequency = {freq_query}, Power ={power_query}")
     devicePrintCmd.msg_gui.set(f'freq={freq_query}::p0.00::n0.00,pow={power_query}::p0.00::n0.00')
     devicePrintCmd.Print()
-    # commands for spectrum analyzer
+    
+    #SECTION 3 - Get the value from measuring device (Spectrum Analyzer)
     if config.spectrum:  # spectrum commands for automation
         cf = frequency  # center frequency on measuring device
         spectrum_methods.set_reference_power(powe + 5, spectrum_analyzer)
         spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)  # set center frequency on spectrum
         freq_out, power_max = spectrum_methods.set_marker(spectrum_analyzer)  # Read marker x (frequency) and y (power)
+        
+        #SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 1  dBm power  (TBC in datasheets)
         error_value = abs(float(freq_out) - cf)  # Calculating difference between input and output frequency
         power_error = abs(float(power_max) - float(powe))# Calculating difference between input and output power
         frequency_th = 0.1  # frequency threshold in terms of percentage of input frequency
@@ -49,7 +52,6 @@ for powe in config.power_list:
             devicePrintCmd.Print()
         else:
             print('Test Fail for power level {0} dBm'.format(powe))
-            devicePrintCmd.Print()
             devicePrintCmd.msg_user.set('Test Fail for power level {0} dBm'.format(powe))
             devicePrintCmd.Print()
 
