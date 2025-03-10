@@ -83,8 +83,7 @@ for freq_in in frequency_list: # iterating over each frequency (main loop)
                 devicePrintCmd.msg_user.set(f'Spurious test Fail for Frequency = {freq_in} MHz')
                 devicePrintCmd.Print()
         else:
-            # print(f'Test Fail for Frequency = {freq_in} MHz')
-            devicePrintCmd.msg_user.set(f'Test Fail for Frequency = {freq_in} MHz')
+            devicePrintCmd.msg_user.set(f'Test Fail for Frequency = {freq_out} MHz with power ={power_max}')
             devicePrintCmd.Print()
         
         devicePrintCmd.msg_user.set('Press enter to test the spurious for next frequency')
