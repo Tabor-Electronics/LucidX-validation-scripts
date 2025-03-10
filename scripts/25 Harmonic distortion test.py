@@ -1,6 +1,4 @@
-'''<DESCRIPTION> This script generates a waveform with certain  frequency and  power,
- User needs to test the harmonic frequencies of the signal and note down the power of the signal based on the given frequency and power </DESCRIPTION>'''
-
+print('<DESCRIPTION> This script generates a waveform with certain  frequency and  power,\nUser needs to test the harmonic frequencies of the signal and note down the power of the signal based on the given frequency and power </DESCRIPTION>')
 ###START OF SCRIPT###
 import numpy as np
 import time
