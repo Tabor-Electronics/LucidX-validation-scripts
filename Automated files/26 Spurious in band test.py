@@ -54,7 +54,7 @@ for i in range(len(frequency_list)):
         error_value = abs(float(freq_out) - freq_in)  # Calculating difference between input and output frequency
         power_error = abs(float(power_max) - float(power_in_dBm))  # Calculating difference between input and output power
         frequency_th = 0.1  # frequency threshold in terms of percentage of input frequency
-        power_th = 4 # power threshold in dBm
+        power_th = 2 # power threshold in dBm
         # a=error_value < (frequency_th * freq_in)
         # b=power_error < power_th
         # print(a,b)
@@ -77,7 +77,7 @@ for i in range(len(frequency_list)):
                 devicePrintCmd.Print()
         else:
             # print(f'Test Fail for Frequency = {freq_in} MHz')
-            devicePrintCmd.msg_user.set(f'Test Fail for Frequency = {freq_in} MHz')
+            devicePrintCmd.msg_user.set(f'Test Fail for Frequency = {freq_out} MHz with power ={power_max}')
             devicePrintCmd.Print()
         
         devicePrintCmd.msg_user.set('Press enter to test the spurious for next frequency')
