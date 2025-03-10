@@ -53,8 +53,7 @@ for freq_in in frequencies:
 		
 		# SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 0.1 percentange (TBC in datasheets)
 		error_value = abs(float(freq_out) - freq_in)  # Calculating difference between input and output frequency
-		power_error = abs(
-			float(power_max) - config.power_default)  # Calculating difference between input and output power
+		power_error = abs(float(power_max) - config.power_default)  # Calculating difference between input and output power
 		frequency_th = 0.1  # frequency threshold in terms of percentage of input frequency
 		power_th = 1  # power threshold in dBm
 		# if (error_value < (frequency_th * freq_in)) and (power_error < power_th):  # Condition to conclude the test result

@@ -97,13 +97,23 @@ class spectrum_methods(object):
         time.sleep(2)
 
     def set_marker(spectrum_analyzer):
-        spectrum_analyzer.write(':CALC:MARK1:STAT ON')
+        # spectrum_analyzer.write(':CALC:MARK1:STAT ON')
         spectrum_methods.set_marker_at_peak(spectrum_analyzer)
         # spectrum_methods.marker_to_center_frequency(spectrum_analyzer)
         freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)
         power_max = spectrum_methods.get_marker_power(spectrum_analyzer)
         # print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         return freq_out, power_max
+    
+    def get_cf_marker(cf,spectrum_analyzer):
+        # spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)
+        spectrum_analyzer.write(':CALC:MARK1:X {0} MHz'.format(cf))
+        spectrum_methods.marker_to_center_frequency(spectrum_analyzer)
+        freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)
+        power_max = spectrum_methods.get_marker_power(spectrum_analyzer)
+        # print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
+        return freq_out, power_max
+    
 
     def set_marker_at_peak(spectrum_analyzer):
         spectrum_analyzer.write(':CALC:MARK1:STAT ON')
@@ -147,14 +157,14 @@ class spectrum_methods(object):
         print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         return freq_out, power_max
 
-    def get_left_peak(spectrum_analyzer):
+    def get_left_peak(cf,spectrum_analyzer):
         spectrum_analyzer.write(':CALCulate:MARKer1:MAXimum:LEFt')
         time.sleep(1)
         freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)
         power_max = spectrum_methods.get_marker_power(spectrum_analyzer)
         print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         return freq_out, power_max
-    def get_right_peak(spectrum_analyzer):
+    def get_right_peak(cf,spectrum_analyzer):
         spectrum_analyzer.write(':CALCulate:MARKer1:MAXimum:RIGHt')
         time.sleep(1)
         freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)

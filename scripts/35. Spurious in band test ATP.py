@@ -1,17 +1,6 @@
-'''
-Test - 2.7 Spurious in band carrier 
-Test description- This test verifies, there is no spurious present in-band (between start and stop frequency ie span ) of the carrier above the defined error limit
-Equipment required - 
-Lucid device - LS1291D
-Spectrum analyzer- Agilent Technologies, E4440A (PSA Series spectrum analyzer)
-what is happening in thi script ?
- - After initializing the device, all the parameter are define in 2nd section,
- - start and stop frequency is selected +/-500  to the signal frequency
- - using 3 marker, the script is checking the peak, peak right and peak left, 
- - if all these marker values are same, then we conclude that there is not spurious above -60dBc in band to the carrier.
- -and if the marker value is not then we check if the power level of each marker to be above threshold, then we conclude the final results
--  A test report will be generated at the end of the script and is saved as a text file in the same directory '''''
-###START OF SCRIPT###
+print("<DESCRIPTION> Test description- This test verifies, there is no spurious present in-band (between start and stop frequency ie span ) of the carrier above the defined error limit</DESCRIPTION>")
+###########################
+####START OF SCRIPT###
 import time
 import numpy as np
 from functions_v1 import Lucid_functions,SignalGeneration

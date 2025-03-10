@@ -18,11 +18,10 @@ devicePrintCmd.msg_user.set('Connecting to the spectrum analyzer')
 devicePrintCmd.Print()
 # commands for spectrum analyzer
 if config.spectrum:
-    spectrum_analyzer, status = spectrum_methods.reset(config)
-    if status:
-        spectrum_methods.set_reference_power(config.power_default + 5,
-                                             spectrum_analyzer)  # step 1) set reference power level on spectrum
-        spectrum_methods.set_span_freq(200, spectrum_analyzer)  # step 2) set span to 200MHz
+	spectrum_analyzer, status = spectrum_methods.reset(config)
+	if status:
+		spectrum_methods.set_reference_power(config.power_default + 5,spectrum_analyzer)  # step 1) set reference power level on spectrum
+		spectrum_methods.set_span_freq(200, spectrum_analyzer)  # step 2) set span to 200MHz
 
 #SECTION 2- Defining parameters and generate signal form LUCIDX
 frequency = config.frequency_default  # frequency in MHz
@@ -41,6 +40,9 @@ for powe in config.power_list:
         spectrum_methods.set_reference_power(powe + 5, spectrum_analyzer)
         spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)  # set center frequency on spectrum
         freq_out, power_max = spectrum_methods.set_marker(spectrum_analyzer)  # Read marker x (frequency) and y (power)
+        devicePrintResp.msg_gui.set(f'freq={freq_out}::p0.00::n0.00,pow={power_max}::p0.00::n0.00')
+        devicePrintResp.Print()
+        
         
         #SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 1  dBm power  (TBC in datasheets)
         error_value = abs(float(freq_out) - cf)  # Calculating difference between input and output frequency
