@@ -1,4 +1,4 @@
-print("Script tests the external source frequency fro the ref out of the Lucid module\nSteps:\n1) Connect an external source to the Ref in (input port) of the lucid module.\n2) Provide a signal of 10MHz and 100Mhz\n3) Connect the RF out and REF out (output ports) to the measuring device")
+print("<DESCRIPTION> Test description :- Script tests the external source frequency fro the ref out of the Lucid module\nSteps:\n1) Connect an external source to the Ref in (input port) of the lucid module.\n2) Provide a signal of 10MHz and 100Mhz\n3) Connect the RF out and REF out (output ports) to the measuring device</DESCRIPTION>")
 # print("Note: It may be tested on Spectrum Analyzer or Oscilloscope")
 ###########################
 ###START OF SCRIPT###
