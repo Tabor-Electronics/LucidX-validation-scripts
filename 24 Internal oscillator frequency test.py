@@ -1,4 +1,4 @@
-print("Script tests the Internal source frequency for the ref out of the Lucid module")
+print("<DESCRIPTION> Test description :- Script tests the Internal source frequency for the ref out of the Lucid module</DESCRIPTION> ")
 ###########################
 ###START OF SCRIPT###
 # SECTION 0 - Import the required libraries
@@ -23,6 +23,7 @@ if config.spectrum:
         spectrum_methods.set_reference_power(config.power_default + 5,spectrum_analyzer)  # step 1) set reference power level on spectrum
         spectrum_methods.set_span_freq(200, spectrum_analyzer)  # step 2) set span to 200MHz
         
+#SECTION 2- Defining parameters and generate signal form LUCIDX
 Lucid_functions.send_scpi_command(":ROSC:SOUR INT",handle)
 rosc_query = Lucid_functions.send_scpi_query(":ROSC:SOUR?", handle)
 devicePrintCmd.msg_user.set('Connect the ref out to spectrum, Make sure no external source is connected to the ref in port')
@@ -35,11 +36,15 @@ if "INT" in rosc_query:
     Lucid_functions.send_scpi_command(':ROSC:OUTP:FREQ {0}e6'.format(r_freq), handle)
     rosc_sour = Lucid_functions.send_scpi_query(":ROSC:SOUR?", handle)
     rosc_freq = Lucid_functions.send_scpi_query(":ROSC:OUTP:FREQ?", handle)
+    
+    #SECTION 3 - Get the value from measuring device (Spectrum Analyzer)
     spectrum_methods.set_centre_frequency(r_freq, spectrum_analyzer)  # set center frequency on spectrum
     spectrum_methods.set_start_freq(0, spectrum_analyzer)
     freq_out, power_max = spectrum_methods.set_marker(spectrum_analyzer)  # Read marker x (frequency) and y (power)
     devicePrintResp.msg_gui.set(f'freq={freq_out}::p0.00::n0.00,pow={power_max}::p0.00::n0.00')
     devicePrintResp.Print()
+    
+    # SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 0.1 percentange (TBC in datasheets)
     if (freq_out==r_freq):
         devicePrintCmd.msg_user.set(f'Test pass for Internal reference oscillator frequency of {r_freq}')
         devicePrintCmd.Print()

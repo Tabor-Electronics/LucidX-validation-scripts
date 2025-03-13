@@ -12,6 +12,14 @@ default_cf =1e3 #in Mhz
 default_span = 200
 default_start = 500
 default_stop = 5000
+
+## Oscilloscope
+scope = True
+scope_usb_add = '0x2A8D::0x900E::MY55490134'
+oscilloscope_address = "USB0::{0}::INSTR".format(scope_usb_add)
+scope_ip_add = 'K-DSO9404-60141'#'192.168.0.92'
+oscilloscope_address_tcpip = "TCPIP0::{0}::INSTR".format(scope_usb_add)
+
 ## Continuous wave parameter
 frequency_default = 1e3
 frequencies = [1e3,2e3, 3e3, 4e3,5e3,6e3,7e3,8e3]#,9e3,10e3,11e3,12e3,13e3,14e3,15e3,16e3,17e3,18e3,19e3, 20e3] #Frequency in Mhz
@@ -42,4 +50,4 @@ pm_deviation_list = [0,30,45,90,125,180]
 pulse_repetition_rate_default = 1e6
 pulse_repetition_rate =[1e6,2e6,3e6,4e6,5e6,6e6,7e6,8e6,9e6,10e6]
 pulse_width_default = 32e-9
-pulse_width_list = [32e-9,32e-8,32e-7,32e-6,32e-5,32e-3,250e-3,100e-3]
+pulse_width_list = [32e-9,32e-8]#,32e-7]#,32e-6,32e-5,32e-3,250e-3,100e-3]

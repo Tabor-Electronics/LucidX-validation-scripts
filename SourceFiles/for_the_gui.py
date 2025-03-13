@@ -1,6 +1,5 @@
 import pyvisa as visa
 import time
-
 from SourceFiles import config
 from SourceFiles.lucid_cmd import LucidCmd
 
