@@ -1,0 +1,48 @@
+1) Frequency Accuracy Test-
+<DESCRIPTION> Test description :- This test gives out the value frequency and  power and compare the given threshold to conclude the result for accuracy with given frequency\nSteps:- \n1) In this script we are using spectrum analyzer as a measuring device.\n2) We will set a center  frequency and  span to verify the signal frequency</DESCRIPTION>")
+
+Script description
+SECTION 0 - Import the required libraries
+SECTION 1- Connect LUCIDX, create object of Device print, connect to measuring device
+SECTION 2- Defining parameters and generate signal form LUCIDX
+SECTION 3 - Get the value from measuring device (Spectrum Analyzer)
+SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 0.1 percentange (TBC in datasheets)
+SECTION 5 - Closing the instruments
+
+3) Power accuracy test-
+<DESCRIPTION>Test description :- This test gives out the value frequency and  power and compare the given threshold to conclude the result for accuracy of power  given frequency\nSteps:- \n1) In this script we are using spectrum analyzer as a measuring device.\n2) We will set a center  frequency and  span and verify the signal power level in dBm</DESCRIPTION>")
+
+Script description
+SECTION 0 - Import the required libraries
+SECTION 1- Connect LUCIDX, create object of Device print, connect to measuring device
+SECTION 2- Defining parameters and generate signal form LUCIDX
+SECTION 3 - Get the value from measuring device (Spectrum Analyzer)
+SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 1  dBm power  (TBC in datasheets)
+SECTION 5 - Closing the instruments
+
+18  Pulse modulation width test -
+<DESCRIPTION> Test description :- This script will generate a signal with pulse modulation for different pulse width\nAn oscilloscope is a better way to see output of pulse modulation (make sure it supports higher frequency range)</DESCRIPTION>
+a) It works with oscilloscope
+b) it compares the given pulse width with parameter of burst_width measured form Oscilloscope and concluydes the results with the threshold of 10%
+24 Internal oscillator frequecny test
+<DESCRIPTION> Test description :- Script tests the Internal source frequency for the ref out of the Lucid module</DESCRIPTION>
+ scipt description = same
+ 25 External oscillator frequency test
+ <DESCRIPTION> Test description :- Script tests the external source frequency fro the ref out of the Lucid module\nSteps:\n1) Connect an external source to the Ref in (input port) of the lucid module.\n2) Provide a signal of 10MHz and 100Mhz\n3) Connect the RF out and REF out (output ports) to the measuring device</DESCRIPTION>
+ Instruments- Lucid, external signal generator with 10Hz  and 100MHz, spectrum Analyzer.
+
+26 Spurious in band
+ <DESCRIPTION> Test description- This test verifies, there is no spurious present in-band (between start and stop frequency ie span ) of the carrier above the defined error limit ie -60dB</DESCRIPTION>
+27 Spurious next to carrier
+<DESCRIPTION> Test description- This test verifies, there is no spurious present near the carrier frequency (between start and stop frequency ie span ) of the carrier above the defined error limit ie -60dB</DESCRIPTION>
+28 Harmonic distortion test
+<DESCRIPTION> Test description :- This test gives out the value frequency and  power and tests for the harmonics and Verify the power at Harmonic frequency\n
+Steps:-
+\n1) In this script we are using spectrum analyzer as a measuring device.
+\n2) We will set a center  frequency first, verify the power
+\n3) Move to harmonic frequency and get the power of it
+\n4) Set span to verify the signal frequency</DESCRIPTION>
+
+
+
+
