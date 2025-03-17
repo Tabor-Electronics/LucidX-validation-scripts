@@ -3,7 +3,7 @@ import time
 
 from SourceFiles import config
 from SourceFiles.lucid_cmd import LucidCmd
-from SourceFiles.for_the_gui import Print_function
+#from SourceFiles.for_the_gui import Print_function
 class Lucid_functions(object):
     def __init__(self,handle):
         handle = self.handle
@@ -11,9 +11,10 @@ class Lucid_functions(object):
     def lsx_connection(handle):
        try:
             idn_response = Lucid_functions.send_scpi_query('*IDN?', handle)
-            Print_function.print_to_user("LucidX IDN Response: {}".format(idn_response))
+            #Print_function.print_to_user("LucidX IDN Response: {}".format(idn_response))
        except Exception as e:
-             Print_function.print_to_user('[!] Exception: ' + str(e))
+           pass
+             #Print_function.print_to_user('[!] Exception: ' + str(e))
     def reset(handle):
         try:
             Lucid_functions.lsx_connection(handle)
@@ -91,7 +92,7 @@ class Lucid_functions(object):
 
     def disconnect_lucid(handle):
         Lucid_functions.send_scpi_command(LucidCmd.OUTP.format("OFF"), handle)
-        Print_function.print_to_user("Test completed")
+       # Print_function.print_to_user("Test completed")
 
 class SignalGeneration():
 
