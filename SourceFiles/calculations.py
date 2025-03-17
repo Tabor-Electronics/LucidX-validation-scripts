@@ -1,6 +1,6 @@
 import pyvisa as visa
 import time
-import config
+from SourceFiles import config
 from SourceFiles.lucid_cmd import LucidCmd
 class ErrorCalculation(object):
     def __init__(self,handle):
