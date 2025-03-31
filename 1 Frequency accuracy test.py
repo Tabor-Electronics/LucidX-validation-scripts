@@ -31,7 +31,7 @@ power = config.power_default  # power in dBm
 for freq_in in frequencies:
 	# continous wave generation
 	freq_query, power_query = SignalGeneration.continous_wave_generation(freq_in, power)  # continous signal generation
-	devicePrintCmd.msg_gui.set(f'freq={freq_query}::p0.00::n0.00,pow={power_query}::p0.00::n0.00')
+	devicePrintCmd.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_query,power_query))
 	devicePrintCmd.Print()
 	# 	# print(f"Frequency = {freq_query}, Power ={power_query}")
 	#     # Print_function.print_freq_pow_to_gui(freq=freq_query,pow=power_query)
@@ -48,13 +48,12 @@ for freq_in in frequencies:
 		freq_out, power_max = spectrum_methods.set_marker(spectrum_analyzer)  # Read marker x (frequency) and y (power)
 		
 		# devicePrintCmd.msg_gui.set('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
-		devicePrintResp.msg_gui.set(f'freq={freq_out}::p0.00::n0.00,pow={power_max}::p0.00::n0.00')
+		devicePrintResp.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_out,power_max))
 		devicePrintResp.Print()
 		
 		# SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 0.1 percentange (TBC in datasheets)
 		error_value = abs(float(freq_out) - freq_in)  # Calculating difference between input and output frequency
-		power_error = abs(
-			float(power_max) - config.power_default)  # Calculating difference between input and output power
+		power_error = abs(float(power_max) - config.power_default)  # Calculating difference between input and output power
 		frequency_th = 0.1  # frequency threshold in terms of percentage of input frequency
 		power_th = 1  # power threshold in dBm
 		# if (error_value < (frequency_th * freq_in)) and (power_error < power_th):  # Condition to conclude the test result

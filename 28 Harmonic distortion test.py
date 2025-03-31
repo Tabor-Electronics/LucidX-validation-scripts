@@ -61,10 +61,10 @@ for freq_in in frequency_list:
                 threshold = -40 + power_in_dBm
                 print(power_max2<threshold)
                 if power_max2<threshold:
-                    devicePrintCmd.msg_user.set(f'Test pass for Frequency = {freq_in} MHz')
+                    devicePrintCmd.msg_user.set(f'Harmonics test pass for Frequency = {freq_in} MHz')
                     devicePrintCmd.Print()
                 else:
-                    devicePrintCmd.msg_user.set(f'Test Fail for Frequency = {freq_in} MHz')
+                    devicePrintCmd.msg_user.set(f'Harmonics test Fail for Frequency = {freq_in} MHz')
                     devicePrintCmd.Print()
             else:
                 # print(f'Test Fail for Frequency = {freq_in} MHz')

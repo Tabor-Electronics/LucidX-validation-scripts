@@ -1,6 +1,6 @@
 import pyvisa as visa
 import time
-import config
+from . import config
 
 
 class spectrum_methods(object):
@@ -16,16 +16,17 @@ class spectrum_methods(object):
             spectrum_analyzer.timeout = 2000
             spectrum_analyzer.write_termination = '\n'
             spectrum_analyzer.read_termination = '\n'
-            print(spectrum_analyzer)
+            # print(spectrum_analyzer)
             spectrum_analyzer.write('*IDN?')
             # spectrum_analyzer.timeout = 1000
             idn_response = spectrum_analyzer.read()
             # spectrum_analyzer.write('*RST')
             # spectrum_analyzer.write('*CLS')
 
-            print("Spectrum Analyzer IDN Response: {}".format(idn_response))
+            # print("Spectrum Analyzer IDN Response: {}".format(idn_response))
         except visa.Error as e:
-            print("Error reading IDN: {}".format(e))
+            spectrum_analyzer = "None"
+            # print("Error reading IDN: {}".format(e))
         return spectrum_analyzer
     def resetX(self):
         try:
@@ -97,13 +98,23 @@ class spectrum_methods(object):
         time.sleep(2)
 
     def set_marker(spectrum_analyzer):
-        spectrum_analyzer.write(':CALC:MARK1:STAT ON')
+        # spectrum_analyzer.write(':CALC:MARK1:STAT ON')
         spectrum_methods.set_marker_at_peak(spectrum_analyzer)
         # spectrum_methods.marker_to_center_frequency(spectrum_analyzer)
         freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)
         power_max = spectrum_methods.get_marker_power(spectrum_analyzer)
         # print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         return freq_out, power_max
+    
+    def get_cf_marker(cf,spectrum_analyzer):
+        # spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)
+        spectrum_analyzer.write(':CALC:MARK1:X {0} MHz'.format(cf))
+        spectrum_methods.marker_to_center_frequency(spectrum_analyzer)
+        freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)
+        power_max = spectrum_methods.get_marker_power(spectrum_analyzer)
+        # print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
+        return freq_out, power_max
+    
 
     def set_marker_at_peak(spectrum_analyzer):
         spectrum_analyzer.write(':CALC:MARK1:STAT ON')
@@ -125,7 +136,7 @@ class spectrum_methods(object):
         spectrum_analyzer.write('CALC:MARK1:Y?')
         time.sleep(2)
         power_max = spectrum_analyzer.read()
-        return power_max
+        return float(power_max)
 
     def get_delta_left_peak(spectrum_analyzer):
         # Enable the delta marker
@@ -134,7 +145,7 @@ class spectrum_methods(object):
         time.sleep(1)
         freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)
         power_max = spectrum_methods.get_marker_power(spectrum_analyzer)
-        print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
+        # print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         return freq_out, power_max
 
     def get_delta_right_peak(spectrum_analyzer):
@@ -144,22 +155,22 @@ class spectrum_methods(object):
         time.sleep(1)
         freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)
         power_max = spectrum_methods.get_marker_power(spectrum_analyzer)
-        print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
+        # print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         return freq_out, power_max
 
-    def get_left_peak(spectrum_analyzer):
+    def get_left_peak(cf,spectrum_analyzer):
         spectrum_analyzer.write(':CALCulate:MARKer1:MAXimum:LEFt')
         time.sleep(1)
         freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)
         power_max = spectrum_methods.get_marker_power(spectrum_analyzer)
-        print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
+        # print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         return freq_out, power_max
-    def get_right_peak(spectrum_analyzer):
+    def get_right_peak(cf,spectrum_analyzer):
         spectrum_analyzer.write(':CALCulate:MARKer1:MAXimum:RIGHt')
         time.sleep(1)
         freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)
         power_max = spectrum_methods.get_marker_power(spectrum_analyzer)
-        print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
+        # print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         return freq_out, power_max
     def get_peak_table(spectrum_analyzer):
         spectrum_analyzer.write(':INIT:CONT 1')
@@ -168,7 +179,7 @@ class spectrum_methods(object):
         time.sleep(1)
         peak_table_data=spectrum_analyzer.write(':CAl:MARK1:PEAK:TABLE:DATA?')
         time.sleep(1)
-        print(peak_table_data)
+        # print(peak_table_data)
         # peak_table = peak_table_data.split(',')
 
         # # Print out the peaks
