@@ -31,7 +31,7 @@ for width in config.pulse_width_list:
     print(f"and Pulse width = {width_q}")
     print("Adjust the timescale of the signal to see the pulse modulated signal")
     print("Press enter for next frequency test")
-    # input()
+    input()
 
 # disconnect
     PulseModulation.pulse_modulation_off()

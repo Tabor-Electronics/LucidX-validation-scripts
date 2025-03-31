@@ -4,8 +4,8 @@ import numpy as np
 from functions_v1 import Lucid_functions
 from spectrum_analyser_functions import spectrum_methods
 from SourceFiles.for_the_gui import DevicePrint
-
 from SourceFiles import config
+
 #Establishing connection with LUCIDX
 handle = config.handle
 Lucid_functions.reset(handle)

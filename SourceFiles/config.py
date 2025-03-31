@@ -1,13 +1,14 @@
-Version = '1.1.2'
+Version = '1.1.5'
 #LUCID device
 lucid_ip_address = '192.168.7.1' #LSX ip address
-port = "5025" #port number
+port = "6001"#"5025" #port number
 handle = 'TCPIP::{0}::{1}::SOCKET'.format(lucid_ip_address,port)  #Lucid TCPIP address
 ##Spectrum analyzer parameters
 spectrum = True
 spectrum_ip_address_israel = '192.168.0.103'
 spectrum_ip_address_india = '192.90.70.36'
-spectrum_tcpip = 'TCPIP::{0}::{1}::SOCKET'.format(spectrum_ip_address_israel,port)  # Spectrum analyzer TCPIP  address
+port_sa = "5025"
+spectrum_tcpip = 'TCPIP::{0}::{1}::SOCKET'.format(spectrum_ip_address_israel,port_sa)  # Spectrum analyzer TCPIP  address
 default_cf =1e3 #in Mhz
 default_span = 200
 default_start = 500

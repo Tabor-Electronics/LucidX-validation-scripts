@@ -97,7 +97,7 @@ class Lucid_functions(object):
 class SignalGeneration():
 
     def continous_wave_generation(frequency,power):
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'# Lucid TCPIP address
+        handle =config.handle
         Lucid_functions.send_scpi_command(LucidCmd.FREQ.format(frequency*1e6), handle)  # SCPI command for frequency
         Lucid_functions.send_scpi_command(LucidCmd.POW.format(power), handle)  # SCPI command for power
         freq_query = Lucid_functions.send_scpi_query(LucidCmd.FREQ_Q, handle)  # SCPI query to frequency
@@ -110,7 +110,7 @@ class SignalGeneration():
 class AmplitudeModulation():
 
     def amplitude_modulation_internal_on(am_freq,depth):
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(LucidCmd.AM_SOURCE.format('INT'), handle)
         Lucid_functions.send_scpi_command(LucidCmd.AM_FREQ.format(am_freq), handle)
         Lucid_functions.send_scpi_command(LucidCmd.AM_DEPTH.format(depth), handle)
@@ -122,7 +122,7 @@ class AmplitudeModulation():
         error = Lucid_functions.get_lucid_error(handle)
         return am_source_q,am_freq_q,am_depth_q,am_status_q
     def amplitude_modulation_external_on():
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(LucidCmd.AM_SOURCE.format('EXT'), handle)
         Lucid_functions.send_scpi_command(LucidCmd.AM.format('ON'), handle)
         am_source_q = Lucid_functions.send_scpi_query(LucidCmd.AM_SOURCE_Q, handle)
@@ -130,7 +130,7 @@ class AmplitudeModulation():
         error = Lucid_functions.get_lucid_error(handle)
         return am_source_q,am_status_q
     def amplitude_modulation_off():
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(LucidCmd.AM.format('OFF'), handle)
         am_status_q = Lucid_functions.send_scpi_query(LucidCmd.AM_Q, handle)
         error = Lucid_functions.get_lucid_error(handle)
@@ -139,7 +139,7 @@ class AmplitudeModulation():
 class FrequencyModulation():
 
     def frequency_modulation_internal_on(fm_freq,deviation):
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(LucidCmd.FM_SOURCE.format('INT'), handle)
         Lucid_functions.send_scpi_command(LucidCmd.FM_FREQ.format(fm_freq), handle)
         Lucid_functions.send_scpi_command(LucidCmd.FM_DEV.format(deviation), handle)
@@ -151,7 +151,7 @@ class FrequencyModulation():
         error = Lucid_functions.get_lucid_error(handle)
         return fm_source_q,fm_freq_q,fm_dev_q,fm_status_q
     def frequency_modulation_external_on(deviation):
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(LucidCmd.FM_DEV.format(deviation), handle)
         fm_dev_q = Lucid_functions.send_scpi_query(LucidCmd.FM_DEV_Q, handle)
         Lucid_functions.send_scpi_command(LucidCmd.FM_SOURCE.format('EXT'), handle)
@@ -161,7 +161,7 @@ class FrequencyModulation():
         error = Lucid_functions.get_lucid_error(handle)
         return fm_dev_q,fm_source_q,fm_status_q
     def frequency_modulation_off():
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(LucidCmd.FM.format('OFF'), handle)
         fm_status_q = Lucid_functions.send_scpi_query(LucidCmd.FM_Q, handle)
         error = Lucid_functions.get_lucid_error(handle)
@@ -169,7 +169,7 @@ class FrequencyModulation():
 class PhaseModulation():
 
     def phase_modulation_internal_on(pm_freq,deviation):
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(LucidCmd.PM_FREQ.format(pm_freq), handle)
         Lucid_functions.send_scpi_command(LucidCmd.PM_DEV.format(deviation), handle)
         Lucid_functions.send_scpi_command(LucidCmd.PM.format('ON'), handle)
@@ -179,14 +179,14 @@ class PhaseModulation():
         error = Lucid_functions.get_lucid_error(handle)
         return pm_freq_q,pm_dev_q,pm_status_q
     def phase_modulation_off():
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(LucidCmd.PM.format('OFF'), handle)
         pm_status_q = Lucid_functions.send_scpi_query(LucidCmd.PM_Q, handle)
         error = Lucid_functions.get_lucid_error(handle)
         return pm_status_q
 class PulseModulation():
     def pulse_modulation_internal_on(pulse_rep_rate,pulse_width):
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(':OUTPut ON', handle)
         # Lucid_functions.send_scpi_command(LucidCmd.PULSE_SOURCE.format('INT'), handle)
         Lucid_functions.send_scpi_command(LucidCmd.PULSE_FREQ.format(pulse_rep_rate), handle)
@@ -201,7 +201,7 @@ class PulseModulation():
         return pulse_rep_rate_q,pulse_width_q, pulse_status_q
 
     def pulse_modulation_external_on():
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(LucidCmd.PULSE_SOURCE.format('EXT'), handle)
         Lucid_functions.send_scpi_command(LucidCmd.PULSE.format('ON'), handle)
         pulse_source_q = Lucid_functions.send_scpi_query(LucidCmd.PULSE_SOURCE_Q, handle)
@@ -210,7 +210,7 @@ class PulseModulation():
         return pulse_source_q, pulse_status_q
 
     def pulse_modulation_off():
-        handle = 'TCPIP::192.168.7.1::5025::SOCKET'  # Lucid TCPIP address
+        handle = config.handle
         Lucid_functions.send_scpi_command(LucidCmd.PULSE.format('OFF'), handle)
         pulse_status_q = Lucid_functions.send_scpi_query(LucidCmd.PULSE_Q, handle)
         error = Lucid_functions.get_lucid_error(handle)

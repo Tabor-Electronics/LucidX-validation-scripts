@@ -25,7 +25,8 @@ power = config.power_default
 # continous wave generation
 freq_query, power_query = SignalGeneration.continous_wave_generation(frequency,power)  # continous signal generation
 # print(f"Frequency = {freq_query}, Power ={power_query}")
-devicePrintCmd.msg_gui.set(f'freq={freq_query}::p0.00::n0.00,pow={power_query}::p0.00::n0.00')
+# devicePrintCmd.msg_gui.set(f'freq={freq_query}::p0.00::n0.00,pow={power_query}::p0.00::n0.00')
+devicePrintCmd.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_query,power_query))
 devicePrintCmd.Print()
 
 devicePrintCmd.msg_user.set('set some pulse signal width 10%, and frequency 1 Hz from external signal source and continue the test')
