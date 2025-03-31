@@ -36,7 +36,8 @@ width_list =config.pulse_width_list
 for width in width_list:
     # # continous wave generation
     freq_query, power_query = SignalGeneration.continous_wave_generation(frequency,power)  # continous signal generation
-    devicePrintCmd.msg_gui.set(f'freq={freq_query}::p0.00::n0.00,pow={power_query}::p0.00::n0.00')
+    # devicePrintCmd.msg_gui.set(f'freq={freq_query}::p0.00::n0.00,pow={power_query}::p0.00::n0.00')
+    devicePrintCmd.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_query, power_query))
     devicePrintCmd.Print()
     # rep_rate = 1/(width)
     # pulse_rr = rep_rate/2

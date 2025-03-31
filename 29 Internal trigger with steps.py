@@ -1,5 +1,4 @@
-print(
-	"<DESCRIPTION> Test description - This script performs amplitude modulation on a signal and waits for a trigger event detected by an oscilloscope."
+print("<DESCRIPTION> Test description - This script performs amplitude modulation on a signal and waits for a trigger event detected by an oscilloscope."
 	"\nSteps:\n1) The spectrum analyzer is used as a measuring device.\n2) The script waits for a trigger from the oscilloscope before proceeding.</DESCRIPTION>")
 ############Start of script############
 

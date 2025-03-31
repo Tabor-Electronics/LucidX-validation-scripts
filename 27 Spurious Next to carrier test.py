@@ -39,8 +39,10 @@ frequnecy_list = config.frequencies
 for freq_in in frequency_list: # iterating over each frequency (main loop)
     # continous wave generation
     freq_query, power_query = SignalGeneration.continous_wave_generation(freq_in,power_in_dBm)  # continous signal generation
-    devicePrintCmd.msg_gui.set(f'freq={freq_query}::p0.00::n0.00,pow={power_query}::p0.00::n0.00')
+    # devicePrintCmd.msg_gui.set(f'freq={freq_query}::p0.00::n0.00,pow={power_query}::p0.00::n0.00')
+    devicePrintCmd.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_query, power_query))
     devicePrintCmd.Print()
+    
     
     # SECTION 3 - Get the value from measuring device (Spectrum Analyzer)
     if config.spectrum:  # spectrum commands for automation

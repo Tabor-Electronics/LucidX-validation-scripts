@@ -1,18 +1,24 @@
 print("Test description :- This script will generate a signal with pulse modulation for different carrier frequencies")
 print("An oscilloscope is a better way to see the output of pulse modulation (make sure it supports higher frequency range)")
-
 ###########################
 ###START OF SCRIPT###
-#Run this script on debug mode, keeping the debugger on line number 28 for better results
-
+# SECTION 0 - Import the required libraries
 from SourceFiles.functions_v1 import Lucid_functions,SignalGeneration,PulseModulation
 from SourceFiles import config
+# from SourceFiles.oscilloscope_functions import scope_methods
+from SourceFiles.oscilloscope_functions import FetchResults
+from SourceFiles.for_the_gui import DevicePrint
 
-#Establishing connection with LUCIDX
+# SECTION 1- Connect LUCIDX, create object of Device print, connect to measuring device
 handle = config.handle
-Lucid_functions.reset(handle)
 
-print("Start Oscilloscope")
+Lucid_functions.reset(handle)  # Establishing connection with LUCIDX
+
+devicePrintCmd = DevicePrint()
+devicePrintResp = DevicePrint(print_type=1)
+
+devicePrintCmd.msg_user.set('Connecting to the Oscilloscope')
+devicePrintCmd.Print()
 
 #Global Parameters
 frequency_list = config.frequencies
@@ -34,6 +40,6 @@ for frequency in frequency_list:
     # input()
   
 # disconnect
-PulseModulation.pulse_modulation_off()
+    PulseModulation.pulse_modulation_off()
 Lucid_functions.disconnect_lucid(config.handle)
 ###END OF SCRIPT###
