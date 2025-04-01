@@ -4,6 +4,10 @@ from SourceFiles import config
 from SourceFiles.lucid_cmd import LucidCmd
 
 
+def testtest():
+	print('test')
+
+
 class Print_function(object):
 	def __init__(self, handle):
 		handle = self.handle
