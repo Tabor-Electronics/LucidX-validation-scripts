@@ -55,9 +55,9 @@ for freq_in in frequencies:
 		error_value = abs(float(freq_out) - freq_in)  # Calculating difference between input and output frequency
 		power_error = abs(float(power_max) - config.power_default)  # Calculating difference between input and output power
 		frequency_th = 0.1  # frequency threshold in terms of percentage of input frequency
-		power_th = 1  # power threshold in dBm
-		# if (error_value < (frequency_th * freq_in)) and (power_error < power_th):  # Condition to conclude the test result
-		if (error_value < (frequency_th * freq_in)):
+		power_th = -60 # power threshold in dBm
+		if (error_value < (frequency_th * freq_in)) and (power_max>power_th):  # Condition to conclude the test result
+		# if (error_value < (frequency_th * freq_in)):
 			# print(f'Test pass for Frequency = {freq_in} MHz')
 			devicePrintCmd.msg_user.set(f'Test pass for Frequency = {freq_in} MHz')
 			devicePrintCmd.Print()
