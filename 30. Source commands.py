@@ -1,19 +1,24 @@
-###START OF SCRIPT###
+print("<DESCRIPTION>Test description :- This script will test the commands to save the setups and check if those are working fine or not")
+      ###START OF SCRIPT###
 import numpy as np
 from functions_v1 import Lucid_functions
 from spectrum_analyser_functions import spectrum_methods
 from SourceFiles import config
+from SourceFiles.for_the_gui import DevicePrint
 
 #Establishing connection with LUCIDX
 handle = config.handle
 Lucid_functions.reset(handle)
+
+devicePrintCmd = DevicePrint()
+devicePrintResp = DevicePrint(print_type=1)
 #Clear all the setups
 no_of_setup = 5
 for i in range(5):
 
     Lucid_functions.send_scpi_command(':SYST:SET:CLEar {0}'.format(i+1), handle)
-
     error = Lucid_functions.get_lucid_error(handle) #Error SCPI query
+    
 while "0, no errors" not in error:
     error = Lucid_functions.get_lucid_error(handle)
     print(error)
@@ -33,9 +38,9 @@ for i in range(no_of_setup):
     # outp_query = Lucid_functions.send_scpi_query(':OUTP?', handle)
     Lucid_functions.send_scpi_command(':SYST:SET:STOR {0}'.format(i + 1), handle)
     #
-    # error = Lucid_functions.get_lucid_error(handle)
+    error = Lucid_functions.get_lucid_error(handle)
     # frequency_query = Lucid_functions.send_scpi_query(':FREQuency?', handle)
-    # power_query = Lucid_functions.send_scpi_query(':POWer?', handle)
+    # power_query = Lucid_functions.send_scpi_query(':POWer?', handle
     # print("Power level", power_query)
     # print("Frequency in MHz", frequency_query)
 
@@ -44,9 +49,24 @@ for i in range(no_of_setup):
     Lucid_functions.send_scpi_command(':SYST:SET:REC {0}'.format(i+1), handle)
     frequency_query = Lucid_functions.send_scpi_query(':FREQuency?', handle)
     power_query = Lucid_functions.send_scpi_query(':POWer?', handle)
+    freq_err = abs(frequency_list[i] - float(frequency_query))
+    power_err = abs(power_list[i] - float(power_query))
+    freq_threshold = config.tolerance * frequency_list[i]
+    
+    pow_th = config.power_tolerance
+    if freq_err < freq_threshold:
+        print('fail')
+        if (power_err < pow_th):
+            devicePrintCmd.msg_user.set('Test pass for Frequency {0} Hz, power {1} dBm'.format(frequency_query,power_query))
+            devicePrintCmd.Print()
+    else:
+        # print(f'Test Fail for Frequency = {freq_in} MHz')
+        devicePrintCmd.msg_user.set(f'Test Fail for Frequency ')
+        devicePrintCmd.Print()
 
-    print(frequency_query)
-    print(power_query)
+    devicePrintCmd.msg_user.set('Press enter for next frequency test')
+    devicePrintCmd.Print()
+    input()
 error = Lucid_functions.get_lucid_error(handle)
 Lucid_functions.send_scpi_command(':OUTP OFF', handle)
 ##################End of script#############

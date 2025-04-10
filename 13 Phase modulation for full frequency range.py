@@ -28,18 +28,61 @@ pm_freq = config.pm_freq_default
 deviation = config.pm_deviation_default
 internal_source = config.frequencies
 
-for frequency in frequency:
-    # continous wave generation
+
+freq_query,power_query = SignalGeneration.continous_wave_generation(1000, 5)#initiating waveform
+pm_freq_q, pm_dev_q, pm_status_q = PhaseModulation.phase_modulation_internal_on(pm_freq, deviation)
+print("PM Frequency = {0}, Deviation={1}".format(pm_freq_q, pm_dev_q))
+for freq_in in frequency:
     # continous wave generation
     freq_query, power_query = SignalGeneration.continous_wave_generation(frequency, power)
-    # devicePrintCmd.msg_gui.set(f'freq={freq_query}::p0.00::n0.00,pow={power_query}::p0.00::n0.00')
     devicePrintCmd.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_query, power_query))
     devicePrintCmd.Print()
     
-    pm_freq_q, pm_dev_q, pm_status_q = PhaseModulation.phase_modulation_internal_on(pm_freq, deviation)
-    print("PM Frequency = {0}, Deviation={1}".format(pm_freq_q,pm_dev_q))
-    print("Press enter for next frequency test")
+    # SECTION 3 - Get the value from measuring device (Spectrum Analyzer)
+    if config.spectrum:
+        spectrum_analyzer, status = spectrum_methods.reset(config)
+        if status:
+            spectrum_methods.set_reference_power(config.power_default + 5,spectrum_analyzer)  # step 1) set reference power level on spectrum
+            spectrum_methods.set_span_freq(200, spectrum_analyzer)  # step 2) set span to 200MHz
+            cf = freq_in  # center frequency on measuring device
+            spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)  # set center frequency on spectrum
+            
+            freq_out, power_max = spectrum_methods.set_marker(spectrum_analyzer)  # Read marker x (frequency) and y (power)
+            # devicePrintCmd.msg_gui.set('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
+            devicePrintResp.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_out, power_max))
+            devicePrintResp.Print()
+            
+            # SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 0.1 percentange (TBC in datasheets)
+            error_value = abs(float(freq_out) - freq_in)  # Calculating difference between input and output frequency
+            power_error = abs(
+                float(power_max) - config.power_default)  # Calculating difference between input and output power
+            frequency_th = 0.1  # frequency threshold in terms of percentage of input frequency
+            power_th = 1  # power threshold in dBm
+            # print(error_value < (frequency_th * freq_in)) # check frequency
+            # print(power_error < power_th) # check power
+            threshold = -60
+            if (error_value < (frequency_th * freq_in)) and (power_max > threshold):  # Condition to conclude the test result
+            # spectrum_methods.set_span_freq(0.03, spectrum_analyzer)
+            # spectrum_methods.set_peak_threshold(threshold, spectrum_analyzer)
+            # freq_out_r, power_max_r = spectrum_methods.get_right_peak(cf, spectrum_analyzer)
+            # fm_freq_response = (freq_out_r - (cf)) * 1e6  # in MHz
+            # fm_error = fm_freq_response - (am_freq)
+            # if (fm_error < (0.2 * am_freq)) and power_max_r > threshold:
+                devicePrintCmd.msg_user.set('Test pass for Frequency = {0} Hz at Carrier frequency of {1} MHz'.format(am_freq, freq_in))
+                devicePrintCmd.Print()
+            else:
+                devicePrintCmd.msg_user.set(
+                    'Test Fail for AM Frequency = {0} Hz at Carrier frequency of {1} MHz'.format(am_freq, freq_in))
+                devicePrintCmd.Print()
+        else:
+            devicePrintCmd.msg_user.set("Unable to connect to spectrum")
+            devicePrintCmd.Print()
+    
+    devicePrintCmd.msg_user.set('Press enter for next frequency test')
+    devicePrintCmd.Print()
+    
     input()
-
-# disconnect
-PhaseModulation.phase_modulation_off()
+# SECTION 5 - Closing the instruments
+    PhaseModulation.phase_modulation_off()
+Lucid_functions.disconnect_lucid(config.handle)
+###END OF SCRIPT##

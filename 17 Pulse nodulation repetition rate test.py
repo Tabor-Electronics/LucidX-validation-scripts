@@ -64,7 +64,7 @@ for pulse_freq in pulse_rr_list:
         results =error < threshold
         print(results)
         if results:
-            print(f'Test pass for Pulserepitition rate of {pulse_freq} ')
+            # print(f'Test pass for Pulserepitition rate of {pulse_freq} ')
             # print(f'Test pass for Frequency = {freq_in} MHz')
             devicePrintCmd.msg_user.set(f'Test pass for Pulserepitition rate of {pulse_freq} ')
             devicePrintCmd.Print()
