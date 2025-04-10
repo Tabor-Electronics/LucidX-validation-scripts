@@ -37,6 +37,7 @@ class Lucid_functions(object):
             session.write_termination = '\n'
             session.read_termination = '\n'
             response = str(session.query(query))
+            response = response.split(';')[0]
             session.close()
             return response
 
@@ -152,8 +153,9 @@ class FrequencyModulation():
         return fm_source_q,fm_freq_q,fm_dev_q,fm_status_q
     def frequency_modulation_external_on(deviation):
         handle = config.handle
-        Lucid_functions.send_scpi_command(LucidCmd.FM_DEV.format(deviation), handle)
-        fm_dev_q = Lucid_functions.send_scpi_query(LucidCmd.FM_DEV_Q, handle)
+        fm_dev_q = 0
+        # Lucid_functions.send_scpi_command(LucidCmd.FM_DEV.format(deviation), handle)
+        # fm_dev_q = Lucid_functions.send_scpi_query(LucidCmd.FM_DEV_Q, handle)
         Lucid_functions.send_scpi_command(LucidCmd.FM_SOURCE.format('EXT'), handle)
         Lucid_functions.send_scpi_command(LucidCmd.FM.format('ON'), handle)
         fm_source_q = Lucid_functions.send_scpi_query(LucidCmd.FM_SOURCE_Q, handle)

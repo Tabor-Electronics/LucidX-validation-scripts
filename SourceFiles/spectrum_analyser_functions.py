@@ -1,6 +1,6 @@
 import pyvisa as visa
 import time
-from . import config
+from SourceFiles import config
 
 
 class spectrum_methods(object):
@@ -25,8 +25,9 @@ class spectrum_methods(object):
 
             # print("Spectrum Analyzer IDN Response: {}".format(idn_response))
         except visa.Error as e:
+            
             spectrum_analyzer = "None"
-            # print("Error reading IDN: {}".format(e))
+            print("Error reading IDN: {}, Check spectrum's ip address".format(e))
         return spectrum_analyzer
     def resetX(self):
         try:
@@ -45,7 +46,7 @@ class spectrum_methods(object):
             
     def reset(self):
         try:
-            device_address = 'TCPIP::192.90.70.103::5025::SOCKET'
+            device_address =self.spectrum_tcpip# 'TCPIP::192.168.0.103::5025::SOCKET'
             spectrum_analyzer = spectrum_methods.connect_spectrum_via_lan(self)
             spectrum_analyzer.write('*RST')
             spectrum_analyzer.write('*CLS')
@@ -94,9 +95,20 @@ class spectrum_methods(object):
         time.sleep(2)
 
     def set_resolution_bandwidth(BW, spectrum_analyzer):
-        spectrum_analyzer.write(':SENS:BAND:RES {0}'.format(BW))
+        spectrum_analyzer.write(':SENS:BAND:RES {0} MHz'.format(BW))
         time.sleep(2)
+    def set_trace_mode_max(spectrum_analyzer):
+        # spectrum_analyzer.write(':TRACE1:STAT ON')
+        # spectrum_analyzer.write(':TRACE1:CLEAR')
+        # spectrum_analyzer.write(':INST:CONF:SA:SAN')
+        # spectrum_analyzer.write(':OPC?')
+        spectrum_analyzer.write(':TRACE1:MODE MAXH')
+        # spectrum_analyzer.write(':INITIATE:IMMEDIATE')
+        time.sleep(5)
 
+    def set_trace_mode_clear(spectrum_analyzer):
+        spectrum_analyzer.write(':TRACE1:CLEAR')
+        time.sleep(1)
     def set_marker(spectrum_analyzer):
         # spectrum_analyzer.write(':CALC:MARK1:STAT ON')
         spectrum_methods.set_marker_at_peak(spectrum_analyzer)
@@ -166,6 +178,8 @@ class spectrum_methods(object):
         # print('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         return freq_out, power_max
     def get_right_peak(cf,spectrum_analyzer):
+        spectrum_methods.set_marker_at_peak(spectrum_analyzer)
+        spectrum_methods.marker_to_center_frequency(spectrum_analyzer)
         spectrum_analyzer.write(':CALCulate:MARKer1:MAXimum:RIGHt')
         time.sleep(1)
         freq_out = spectrum_methods.get_marker_frequency(spectrum_analyzer)

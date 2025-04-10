@@ -25,7 +25,7 @@ if config.spectrum:
         spectrum_methods.set_span_freq(200, spectrum_analyzer)  # step 2) set span to 200MHz
 devicePrintCmd.msg_user.set('Connect the ref out to spectrum and ref in from external signal generator\nConnect external signal sin wave having 10MHz')
 devicePrintCmd.Print()
-input()
+# input()
 rosc_query = Lucid_functions.send_scpi_query(":ROSC:SOUR?",handle)
 
 if "EXT" in rosc_query:
@@ -42,8 +42,7 @@ if "EXT" in rosc_query:
         
         # SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 0.1 percentange (TBC in datasheets)
         error_value = abs(float(freq_out) - rosc_freq)  # Calculating difference between input and output frequency
-        power_error = abs(
-            float(power_max) - config.power_default)  # Calculating difference between input and output power
+        power_error = abs(float(power_max) - config.power_default)  # Calculating difference between input and output power
         frequency_th = 0.1  # frequency threshold in terms of percentage of input frequency
         power_th = 1  # power threshold in dBm
         # print(error_value < (frequency_th * freq_in)) # check frequency
