@@ -54,8 +54,7 @@ for freq_in in frequency:
             
             # SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 0.1 percentange (TBC in datasheets)
             error_value = abs(float(freq_out) - freq_in)  # Calculating difference between input and output frequency
-            power_error = abs(
-                float(power_max) - config.power_default)  # Calculating difference between input and output power
+            power_error = abs( float(power_max) - config.power_default)  # Calculating difference between input and output power
             frequency_th = 0.1  # frequency threshold in terms of percentage of input frequency
             power_th = 1  # power threshold in dBm
             # print(error_value < (frequency_th * freq_in)) # check frequency
@@ -68,11 +67,10 @@ for freq_in in frequency:
             # fm_freq_response = (freq_out_r - (cf)) * 1e6  # in MHz
             # fm_error = fm_freq_response - (am_freq)
             # if (fm_error < (0.2 * am_freq)) and power_max_r > threshold:
-                devicePrintCmd.msg_user.set('Test pass for Frequency = {0} Hz at Carrier frequency of {1} MHz'.format(am_freq, freq_in))
+                devicePrintCmd.msg_user.set('Test pass for Frequency = {0} Hz at Carrier frequency of {1} MHz'.format(pm_freq, freq_in))
                 devicePrintCmd.Print()
             else:
-                devicePrintCmd.msg_user.set(
-                    'Test Fail for AM Frequency = {0} Hz at Carrier frequency of {1} MHz'.format(am_freq, freq_in))
+                devicePrintCmd.msg_user.set('Test Fail for AM Frequency = {0} Hz at Carrier frequency of {1} MHz'.format(pm_freq, freq_in))
                 devicePrintCmd.Print()
         else:
             devicePrintCmd.msg_user.set("Unable to connect to spectrum")

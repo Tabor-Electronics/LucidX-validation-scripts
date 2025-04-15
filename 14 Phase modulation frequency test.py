@@ -17,7 +17,7 @@ Lucid_functions.reset(handle)  # Establishing connection with LUCIDX
 devicePrintCmd = DevicePrint()
 devicePrintResp = DevicePrint(print_type=1)
 
-devicePrintCmd.msg_user.set('Connecting to the spectrum analyzer')
+devicePrintCmd.msg_user.set('Connection to the spectrum analyzer is required, this test has to be done manual testing method')
 devicePrintCmd.Print()
 
 #SECTION 2- Defining parameters and generate signal form LUCIDX
@@ -35,6 +35,8 @@ devicePrintCmd.Print()
 for pm_freq in pm_freq_list:
     pm_freq_q, pm_dev_q, pm_status_q = PhaseModulation.phase_modulation_internal_on(pm_freq, deviation)
     devicePrintCmd.msg_gui.set("PM frequency={0}::p0.00::n0.00,PM deviation={1}::p0.00::n0.00".format(pm_freq_q, pm_dev_q))
+    devicePrintCmd.msg_user.set('Check the phase modulated frequency of the signal, Given phase modulation frequency is {0}'.format(pm_freq))
+    devicePrintCmd.Print()
     devicePrintCmd.msg_user.set('Press enter for next phase modulation test')
     devicePrintCmd.Print()
     input()

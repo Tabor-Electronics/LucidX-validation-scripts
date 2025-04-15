@@ -21,7 +21,7 @@ devicePrintCmd.msg_user.set('Connecting to the Oscilloscope')
 devicePrintCmd.Print()
 if config.scope:
     # Set the oscilloscope's VISA address
-    scope_address = "TCPIP0::192.168.0.92::INSTR"  # Update with actual VISA address
+    scope_address = config.oscilloscope_address_tcpip# "TCPIP0::192.168.0.92::INSTR"  # Update with actual VISA address
     # Create an object of FetchResults
     oscilloscope = FetchResults(scope_address)
     # print("Start Oscilloscope")

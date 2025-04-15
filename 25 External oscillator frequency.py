@@ -25,7 +25,7 @@ if config.spectrum:
         spectrum_methods.set_span_freq(200, spectrum_analyzer)  # step 2) set span to 200MHz
 devicePrintCmd.msg_user.set('Connect the ref out to spectrum and ref in from external signal generator\nConnect external signal sin wave having 10MHz')
 devicePrintCmd.Print()
-# input()
+input()
 rosc_query = Lucid_functions.send_scpi_query(":ROSC:SOUR?",handle)
 
 if "EXT" in rosc_query:
