@@ -78,8 +78,8 @@ for freq_in in frequency_list:
     
     devicePrintCmd.msg_user.set('Press enter for next frequency test')
     devicePrintCmd.Print()
-    
     input()
+    
 # SECTION 5 - Closing the instruments
 AmplitudeModulation.amplitude_modulation_off()
 Lucid_functions.disconnect_lucid(config.handle)
