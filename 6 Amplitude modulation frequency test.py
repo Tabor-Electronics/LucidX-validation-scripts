@@ -32,7 +32,7 @@ am_frequencies= config.am_frequencies_list
 depth = config.am_depth_default
 
 # continous wave generation
-freq_query,power_query = SignalGeneration.continous_wave_generation(frequency, power)
+freq_query,power_query = SignalGeneration.continous_wave_generation(freq_in, power)
 devicePrintCmd.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_query, power_query))
 devicePrintCmd.Print()
 
@@ -66,6 +66,8 @@ for am_freq in am_frequencies:
             spectrum_methods.set_span_freq(0.03, spectrum_analyzer)
             spectrum_methods.set_peak_threshold(threshold, spectrum_analyzer)
             freq_out_r, power_max_r = spectrum_methods.get_right_peak(cf, spectrum_analyzer)
+            devicePrintResp.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_out, power_max))
+            devicePrintResp.Print()
             fm_freq_response = (freq_out_r - (cf)) * 1e6  # in MHz
             fm_error = fm_freq_response - (am_freq)
             if (fm_error < (0.2 * am_freq)) and power_max_r > threshold:
