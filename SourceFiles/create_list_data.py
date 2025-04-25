@@ -130,17 +130,9 @@ if __name__ == "__main__":
 	Lucid_functions.send_scpi_command(LucidCmd.OUTP.format('ON'), handle)
 	Lucid_functions.send_scpi_command(LucidCmd.LIST_ON, handle)
 	Listsetup = ListData()
-	list_row1 = ListRow(frequency=200*10**9,
-	                    power=5 * 100,
-	                    last_entry=0,
-	                    advance=0,
-	                    dwell_time=2000)
+	list_row1 = ListRow(frequency=200*10**9,power=5 * 100,last_entry=0,advance=0,dwell_time=2000)
 	Listsetup.add_list_row(list_row1)
-	list_row2 = ListRow(frequency=100* 10**9,
-	                    power=5 * 100,
-	                    last_entry=1,
-	                    advance=0,
-	                    dwell_time=2000)
+	list_row2 = ListRow(frequency=100* 10**9,power=5 * 100,last_entry=1,advance=0,dwell_time=2000)
 	Listsetup.add_list_row(list_row2)
 	# list_row3 = ListRow(frequency=300 * 10 ** 3, power=5 * 100, last_entry=1, advance=1, dwell_time=200 * 10 **6)
 	# Listsetup.add_list_row(list_row3)

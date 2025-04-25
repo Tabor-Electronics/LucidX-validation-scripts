@@ -1,4 +1,4 @@
-print("<DESCRIPTION>Test description :-  This test run for Amplitude modulation of a given carrier signal,with different baseband frequency and deviation</DESCRIPTION>")
+print("<DESCRIPTION>Test description :-  This test run for Amplitude modulation of a given carrier signal, with baseband frequency and different deviation</DESCRIPTION>")
 ###########################
 ###START OF SCRIPT###
 # SECTION 0 - Import the required libraries
@@ -28,17 +28,17 @@ if config.spectrum:
 # Global Parameters
 freq_in= config.frequency_default
 power = config.power_default
-am_frequencies= config.am_frequencies_list
-depth = config.am_depth_default
+am_freq= config.am_freq_default
+depth_list = config.am_depth_list
 
 # continous wave generation
 freq_query,power_query = SignalGeneration.continous_wave_generation(freq_in, power)
-devicePrintCmd.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_query, power_query))
+devicePrintCmd.msg_gui.set("freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00".format(freq_query,power_query))
 devicePrintCmd.Print()
 
-# amplitude modulation frequencies
-for am_freq in am_frequencies:
-    am_source_q, am_freq_q, am_depth_q, am_status_q = AmplitudeModulation.amplitude_modulation_internal_on(am_freq,depth)
+# Internal source commands for AM with varing depth
+for depth in depth_list:
+    am_source_q,am_freq_q,am_depth_q,status = AmplitudeModulation.amplitude_modulation_internal_on(am_freq, depth)
     devicePrintCmd.msg_gui.set('AM Frequency={0}::p0.00::n0.00,Depth={1}::p0.00::n0.00'.format(am_freq_q, am_depth_q))
     devicePrintCmd.Print()
     
@@ -48,35 +48,31 @@ for am_freq in am_frequencies:
         spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)  # set center frequency on spectrum
         
         freq_out, power_max = spectrum_methods.set_marker(spectrum_analyzer)  # Read marker x (frequency) and y (power)
+        
         # devicePrintCmd.msg_gui.set('power ={1} dBm at frequency = {0} MHz'.format(freq_out, power_max))
         devicePrintResp.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_out, power_max))
         devicePrintResp.Print()
         
         # SECTION 4 - Comparing the results from measuring device (Spectrum Analyzer) with provided input to LUCIDX and Conclude if the result is pass or fail, giving the threshold of 0.1 percentange (TBC in datasheets)
         error_value = abs(float(freq_out) - freq_in)  # Calculating difference between input and output frequency
-        power_error = abs(
-            float(power_max) - config.power_default)  # Calculating difference between input and output power
+        power_error = abs(float(power_max) - config.power_default)  # Calculating difference between input and output power
         frequency_th = 0.1  # frequency threshold in terms of percentage of input frequency
         power_th = 1  # power threshold in dBm
         # print(error_value < (frequency_th * freq_in)) # check frequency
         # print(power_error < power_th) # check power
-        threshold = -60
-        if (error_value < (frequency_th * freq_in)) and (
-                power_max > threshold):  # Condition to conclude the test result
+        threshold = -30 # define AM side band power threshold here.
+        if (error_value < (frequency_th * freq_in)) and (power_max > threshold):  # Condition to conclude the test result
             spectrum_methods.set_span_freq(0.03, spectrum_analyzer)
             spectrum_methods.set_peak_threshold(threshold, spectrum_analyzer)
             freq_out_r, power_max_r = spectrum_methods.get_right_peak(cf, spectrum_analyzer)
-            devicePrintResp.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_out, power_max))
-            devicePrintResp.Print()
-            fm_freq_response = (freq_out_r - (cf)) * 1e6  # in MHz
-            fm_error = fm_freq_response - (am_freq)
-            if (fm_error < (0.2 * am_freq)) and power_max_r > threshold:
-                devicePrintCmd.msg_user.set(
-                    'Test pass for Frequency = {0} Hz at Carrier frequency of {1} MHz'.format(am_freq, freq_in))
+            # print(power_max_r)
+            am_freq_response = (freq_out_r - (cf)) * 1e6  # in MHz
+            am_error = am_freq_response - (am_freq)
+            if (freq_out !=freq_out_r) and (am_error < (0.2 * am_freq)) and power_max_r > threshold:
+                devicePrintCmd.msg_user.set('Test pass for Frequency = {0} Hz at Carrier frequency of {1} MHz'.format(am_freq, freq_in))
                 devicePrintCmd.Print()
             else:
-                devicePrintCmd.msg_user.set(
-                    'Test Fail for AM Frequency = {0} Hz at Carrier frequency of {1} MHz'.format(am_freq, freq_in))
+                devicePrintCmd.msg_user.set('Test Fail for AM Frequency = {0} Hz at Carrier frequency of {1} MHz'.format(am_freq, freq_in))
                 devicePrintCmd.Print()
         else:
             devicePrintCmd.msg_user.set('Test Fail for Frequency = {0} MHz'.format(freq_in))
@@ -84,9 +80,10 @@ for am_freq in am_frequencies:
     
     devicePrintCmd.msg_user.set('Press enter for next frequency test')
     devicePrintCmd.Print()
-    
     input()
+    
+    AmplitudeModulation.amplitude_modulation_off()
+    
 # SECTION 5 - Closing the instruments
-AmplitudeModulation.amplitude_modulation_off()
 Lucid_functions.disconnect_lucid(config.handle)
 ###END OF SCRIPT##
