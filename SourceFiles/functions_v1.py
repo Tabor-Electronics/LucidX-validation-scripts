@@ -257,3 +257,47 @@ class sweeps():
         error = Lucid_functions.get_lucid_error(handle)
         return start_power_query,stop_power_query,step_query,time_query,direction_query
     
+class Triggers:
+    def internal_trigger_once(once_count, timer):
+        handle = config.handle
+        Lucid_functions.send_scpi_command(':INIT:CONT OFF',handle)  # disabling continous as we go for internal trigger option
+        Lucid_functions.send_scpi_command(':TRIG:ADV ONC', handle)
+        Lucid_functions.send_scpi_command(':TRIG:COUN {0}'.format(once_count), handle)
+        Lucid_functions.send_scpi_command(':TRIG:SOUR TIM', handle)
+        Lucid_functions.send_scpi_command(':TRIG:TIM:TIME {0}'.format(timer), handle)
+        error = Lucid_functions.get_lucid_error(handle)
+    def internal_trigger_step(timer):
+        handle = config.handle
+        Lucid_functions.send_scpi_command(':INIT:CONT OFF',handle)  # disabling continous as we go for internal trigger option
+        Lucid_functions.send_scpi_command(':TRIG:ADV STEP', handle)
+        Lucid_functions.send_scpi_command(':TRIG:SOUR TIM', handle)
+        Lucid_functions.send_scpi_command(':TRIG:TIM:TIME {0}'.format(timer), handle)
+        error = Lucid_functions.get_lucid_error(handle)
+
+        
+    def external_trigger_once(once_count):
+        handle = config.handle
+        Lucid_functions.send_scpi_command(':INIT:CONT OFF', handle)
+        Lucid_functions.send_scpi_command(':TRIG:ADV ONC', handle)
+        Lucid_functions.send_scpi_command(':TRIG:COUN {}'.format(once_count), handle)
+        Lucid_functions.send_scpi_command(':TRIG:SOUR EXT', handle)
+        error = Lucid_functions.get_lucid_error(handle)
+    def external_trigger_step():
+        handle = config.handle
+        Lucid_functions.send_scpi_command(':INIT:CONT OFF', handle)
+        Lucid_functions.send_scpi_command(':TRIG:ADV STEP', handle)
+        Lucid_functions.send_scpi_command(':TRIG:SOUR EXT', handle)
+        error = Lucid_functions.get_lucid_error(handle)
+    def bus_trigger_once(count):
+        handle = config.handle
+        Lucid_functions.send_scpi_command(':INIT:CONT OFF', handle)
+        temp= Lucid_functions.send_scpi_query(':INIT:CONT?', handle)
+        Lucid_functions.send_scpi_command(':TRIG:ADV ONC', handle)
+        temp= Lucid_functions.send_scpi_query(':TRIG:ADV?', handle)
+        Lucid_functions.send_scpi_command(':TRIG:COUN {}'.format(count), handle)
+        temp= Lucid_functions.send_scpi_query(':TRIG:ADV?', handle)
+        Lucid_functions.send_scpi_command(':TRIG:SOUR BUS', handle)
+        temp= Lucid_functions.send_scpi_query(':TRIG:SOUR?', handle)
+        error = Lucid_functions.get_lucid_error(handle)
+        
+        

@@ -5,7 +5,7 @@ print("<DESCRIPTION> Test description - This script performs amplitude modulatio
 import time
 import pyvisa as visa
 from SourceFiles.functions_v1 import Lucid_functions, SignalGeneration, AmplitudeModulation
-from SourceFiles.oscilloscope_functions import scope_methods  # Correct import of oscilloscope class from the correct file
+from SourceFiles.oscilloscope_functions import ScopeMethods  # Correct import of oscilloscope class from the correct file
 from SourceFiles import config
 
 # Establishing connection with LUCID device
@@ -57,13 +57,13 @@ AmplitudeModulation.amplitude_modulation_internal_on(am_freq, am_depth)
 
 # Connect to the oscilloscope using the address from config
 scope_address = config.oscilloscope_address  # Get oscilloscope address from config
-oscilloscope = scope_methods(scope_address)  # Create an instance of the oscilloscope class
+oscilloscope = ScopeMethods(scope_address)  # Create an instance of the oscilloscope class
 oscilloscope.scope_connection(scope_address)  # Establish connection
 
 
 # Fetch and display oscilloscope measurements
-measured_frequency = scope_methods.get_frequency(oscilloscope)
-measured_burst_width = scope_methods.get_burst_width(oscilloscope)
+measured_frequency = ScopeMethods.get_frequency(oscilloscope)
+measured_burst_width = ScopeMethods.get_burst_width(oscilloscope)
 print(f"Measured Frequency: {measured_frequency} Hz")
 print(f"Measured Burst Width: {measured_burst_width} s")
 

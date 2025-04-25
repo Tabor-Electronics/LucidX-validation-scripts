@@ -5,7 +5,7 @@ In this script a pattern od desired ontime offtine is define and a bus (manual) 
 # if spectrum is not connected to LAN please chnage the variable on line 16 "spectrum = False" and run the script on debug.
 
 """
-from SourceFiles.functions_v1 import Lucid_functions, SignalGeneration
+from SourceFiles.functions_v1 import Lucid_functions, SignalGeneration,Triggers
 from SourceFiles.spectrum_analyser_functions import spectrum_methods
 from SourceFiles import config
 from SourceFiles.lucid_cmd import LucidCmd
@@ -51,15 +51,8 @@ for i in range(len(ontime)):
     print(list_def)
 Lucid_functions.send_scpi_command(LucidCmd.OUTP.format('ON'), handle)
 Lucid_functions.send_scpi_command(LucidCmd.PATTERN_ON, handle)
+Triggers.bus_trigger_once()
 
-Lucid_functions.send_scpi_command(':INIT:CONT OFF', handle)
-temp= Lucid_functions.send_scpi_query(':INIT:CONT?', handle)
-Lucid_functions.send_scpi_command(':TRIG:ADV ONC', handle)
-temp= Lucid_functions.send_scpi_query(':TRIG:ADV?', handle)
-Lucid_functions.send_scpi_command(':TRIG:COUN {}'.format(count), handle)
-temp= Lucid_functions.send_scpi_query(':TRIG:ADV?', handle)
-Lucid_functions.send_scpi_command(':TRIG:SOUR BUS', handle)
-temp= Lucid_functions.send_scpi_query(':TRIG:SOUR?', handle)
 for trg in range(int(no_of_triggers)):
     
     Lucid_functions.send_scpi_command('*TRG', handle)

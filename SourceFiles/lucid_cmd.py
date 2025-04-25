@@ -13,6 +13,9 @@ class LucidCmd(StrEnum):
     PHASE_Q = ':PHAS?'
     OUTP_Q = ':OUTP?'
     OUTP = ':OUTP {0}'
+    OUTP_ON = ':OUTP ON'
+    OUTP_OFF = ':OUTP OFF'
+    
     AM_SOURCE = ':AM:SOUR {0}'
     AM_SOURCE_Q = ':AM:SOUR?'
     AM_FREQ = ':AM:INT:FREQ {0}'
@@ -47,12 +50,14 @@ class LucidCmd(StrEnum):
     PATTERN_OFF = ':PATT OFF'
     PATTERN_DEF = ':PATT:DEF {0},{1},{2},{3},{4}'
     PATTERN_DEF_Q = ':PATT:DEF? {0}'
-    PATTERN_DATA =  ":SOURCE:PATTERN:DATA "
+    PATTERN_DATA =  ':SOURCE:PATTERN:DATA'
     LIST_ON = ':LIST ON'
     LIST_OFF = ':LIST OFF'
     LIST_DEF = ':LIST:DEF {0},{1},{2},{3},{4},{5}'
     LIST_DEF_Q = ':LIST:DEF? {0}'
-    LIST_DATA = ":SOURCE:LIST:DATA "
+    LIST_DATA = ':SOURCE:LIST:DATA'
+    
+    
 
 
 
