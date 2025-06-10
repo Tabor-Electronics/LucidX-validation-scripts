@@ -10,6 +10,7 @@ from SourceFiles import config
 handle = config.handle
 Lucid_functions.reset(handle)
 
+
 devicePrintCmd = DevicePrint()
 devicePrintResp = DevicePrint(print_type=1)
 

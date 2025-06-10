@@ -25,11 +25,11 @@ class ScopeMethods:
 
             # Query oscilloscope identity
             idn = oscilloscope.query("*IDN?")
-            print(f"Oscilloscope ID: {idn}")
+            #print(f"Oscilloscope ID: {idn}")
 
             # Perform some initial setup (e.g., reset the oscilloscope)
             oscilloscope.write("*RST")
-            print("Oscilloscope reset.")
+            #print("Oscilloscope reset.")
 
             return oscilloscope  # Return the connected oscilloscope object
         except Exception as e:
@@ -40,7 +40,7 @@ class ScopeMethods:
         """Close the connection to the oscilloscope."""
         if self.scope:
             self.scope.close()
-            print("Oscilloscope connection closed.")
+            #print("Oscilloscope connection closed.")
 
     def reset(self):
         """Reset all oscilloscope settings and clear measurements."""

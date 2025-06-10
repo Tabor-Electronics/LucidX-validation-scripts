@@ -1,4 +1,4 @@
-print("<DESCRIPTION>Test description :- This script will test the commands to save the setups and check if those are working fine or not")
+print("<DESCRIPTION>Test name :- Source commands test. \nTest description :-This script tests the commands used to save setup configurations and verifies whether the parameters are correctly retained. No additional connections are required to run this test.")
       ###START OF SCRIPT###
 import numpy as np
 from functions_v1 import Lucid_functions
@@ -24,8 +24,8 @@ while "0, no errors" not in error:
     print(error)
 error = Lucid_functions.get_lucid_error(handle)
 
-print("Previous stored setup cleared")
-
+devicePrintCmd.msg_user.set('Previous stored setup cleared')
+devicePrintCmd.Print()
 ##parameters
 frequency_list = [20e6,3e9,8e8,250e3,123e6]#np.linspace(50e3, 55e3,5)#unit MHz
 power_list = np.linspace(-10, 10,5) #unit dBm
@@ -55,7 +55,7 @@ for i in range(no_of_setup):
     
     pow_th = config.power_tolerance
     if freq_err < freq_threshold:
-        print('fail')
+        # print('fail')
         if (power_err < pow_th):
             devicePrintCmd.msg_user.set('Test pass for Frequency {0} Hz, power {1} dBm'.format(frequency_query,power_query))
             devicePrintCmd.Print()
@@ -63,10 +63,15 @@ for i in range(no_of_setup):
         # print(f'Test Fail for Frequency = {freq_in} MHz')
         devicePrintCmd.msg_user.set(f'Test Fail for Frequency ')
         devicePrintCmd.Print()
-
-    devicePrintCmd.msg_user.set('Press enter for next frequency test')
-    devicePrintCmd.Print()
+    if i == no_of_setup - 1:
+        devicePrintCmd.msg_user.set('Press enter to finish test')
+        devicePrintCmd.Print()
+    else:
+        devicePrintCmd.msg_user.set('Press enter for next frequency test')
+        devicePrintCmd.Print()
     input()
 error = Lucid_functions.get_lucid_error(handle)
 Lucid_functions.send_scpi_command(':OUTP OFF', handle)
+devicePrintCmd.msg_user.set('Test completed ')
+devicePrintCmd.Print()
 ##################End of script#############
