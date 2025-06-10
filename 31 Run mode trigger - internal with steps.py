@@ -1,5 +1,4 @@
-print("<DESCRIPTION> Test description :-In this script we have done amplitude modulation on a signal and then used trigger with mentioned timer and once count using bus trigger.</DESCRIPTION>")
-
+print("<DESCRIPTION> Test description :-In this script we have done amplitude modulation on a signal and then used trigger with mentioned timer and once count.</DESCRIPTION>")
 # SECTION 1 - Connect LUCIDX, create object of DevicePrint, connect to measuring device
 from SourceFiles.functions_v1 import Lucid_functions, SignalGeneration, AmplitudeModulation, Triggers
 from SourceFiles.spectrum_analyser_functions import spectrum_methods
@@ -14,6 +13,7 @@ handle = config.handle
 Lucid_functions.reset(handle)
 
 # SECTION 1 - Device print setup
+
 devicePrintCmd = DevicePrint()
 devicePrintResp = DevicePrint(print_type=1)
 
@@ -33,7 +33,6 @@ power = config.power_default
 am_freq = 10e3
 am_depth = 90
 timer = 2  # Timer in seconds
-once_count = 20000
 
 freq_query, power_query = SignalGeneration.continous_wave_generation(frequency, power)
 devicePrintCmd.msg_gui.set("freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00".format(freq_query, power_query))
@@ -48,29 +47,27 @@ if config.spectrum:
     cf = frequency
     span = 5 * am_freq / 1e6
     threshold = -30
-    sweep_time = 10 * timer
-    spectrum_analyzer, status = spectrum_methods.reset(config)
+    sweep_time = 20 * timer
+
     spectrum_methods.set_centre_frequency(cf, spectrum_analyzer)
     freq_out, power_max = spectrum_methods.set_marker(spectrum_analyzer)
     devicePrintResp.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_out, power_max))
     devicePrintResp.Print()
+
     spectrum_methods.set_span_freq(span, spectrum_analyzer)
     spectrum_methods.set_peak_threshold(threshold, spectrum_analyzer)
     freq_out_r, power_max_r = spectrum_methods.get_right(spectrum_analyzer)
     devicePrintResp.msg_gui.set('freq={0}::p0.00::n0.00,pow={1}::p0.00::n0.00'.format(freq_out, power_max))
     devicePrintResp.Print()
+
     Lucid_functions.send_scpi_command(':INIT:CONT ON', handle)
+    # fr, pow = spectrum_methods.get_right_peak(cf, spectrum_analyzer)
+    # spectrum_methods.set_marker_at_fr(freq_out_r, spectrum_analyzer)
     spectrum_methods.marker_to_center_frequency(spectrum_analyzer)
     spectrum_methods.set_span_freq(0, spectrum_analyzer)
-    Triggers.bus_trigger_once(once_count)
+    Triggers.internal_trigger_step(timer)
     spectrum_methods.set_sweep_time(sweep_time, spectrum_analyzer)
-
-    no_of_triggers = 10
-    for trg in range(int(no_of_triggers)):
-        Lucid_functions.send_scpi_command('*TRG', handle)
-        print("trigger applied")
-
-        spectrum_methods.set_single_mode(spectrum_analyzer)
+    spectrum_methods.set_single_mode(spectrum_analyzer)
 
     time.sleep(sweep_time)
     sweep_pts = int(spectrum_analyzer.query(":SWE:POIN?"))

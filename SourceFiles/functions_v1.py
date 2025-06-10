@@ -294,10 +294,20 @@ class Triggers:
         temp= Lucid_functions.send_scpi_query(':INIT:CONT?', handle)
         Lucid_functions.send_scpi_command(':TRIG:ADV ONC', handle)
         temp= Lucid_functions.send_scpi_query(':TRIG:ADV?', handle)
-        Lucid_functions.send_scpi_command(':TRIG:COUN {}'.format(count), handle)
+        Lucid_functions.send_scpi_command(':TRIG:COUN {0}'.format(count), handle)
         temp= Lucid_functions.send_scpi_query(':TRIG:ADV?', handle)
         Lucid_functions.send_scpi_command(':TRIG:SOUR BUS', handle)
         temp= Lucid_functions.send_scpi_query(':TRIG:SOUR?', handle)
         error = Lucid_functions.get_lucid_error(handle)
-        
+    
+    def bus_trigger_step():
+        handle = config.handle
+        Lucid_functions.send_scpi_command(':INIT:CONT OFF', handle)
+        temp = Lucid_functions.send_scpi_query(':INIT:CONT?', handle)
+        Lucid_functions.send_scpi_command(':TRIG:ADV STEP', handle)
+        temp = Lucid_functions.send_scpi_query(':TRIG:ADV?', handle)
+        Lucid_functions.send_scpi_command(':TRIG:SOUR BUS', handle)
+        temp = Lucid_functions.send_scpi_query(':TRIG:SOUR?', handle)
+        error = Lucid_functions.get_lucid_error(handle)
+
         

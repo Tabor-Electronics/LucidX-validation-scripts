@@ -24,7 +24,7 @@ class ErrorCalculation(object):
     @staticmethod
     def final_result(error, threshold):
         test_result = "Pass" if error <= threshold else "Fail"
-        print(test_result)
+        #print(test_result)
         return test_result
 
 
@@ -125,12 +125,12 @@ class SweepCalculations:
                 max_toff = max(repeated_toff_values)
                 repeated_toff_values = {max_toff: repeated_toff_values[max_toff]}
                 
-                print(f"Max Ton: {max_ton}")
-                print(f"Max Toff: {max_toff}")
+                #print(f"Max Ton: {max_ton}")
+                #print(f"Max Toff: {max_toff}")
         
             # Print filtered pulse data
-            print("\n📊 Filtered Pulse Report (ms):")
-            print("Pulse#   Ton(ms)   Toff(ms)")
+            #print("\n📊 Filtered Pulse Report (ms):")
+            #print("Pulse#   Ton(ms)   Toff(ms)")
             for p in filtered_pulse_data:
                 print(f"{p[0]:>6}   {p[1]:>7.2f}   {p[2]:>8.2f}")
             #
